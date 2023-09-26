@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.text.DateFormat;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.R;
+import dev.movecax.models.Users;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RegistroUserActivity extends AppCompatActivity {
+public class RegistroUserActivity extends AppCompatActivity implements RegistroUserView{
 
     private RegistroUserPresenter presenter;
 
@@ -38,25 +42,32 @@ public class RegistroUserActivity extends AppCompatActivity {
         etSexo = findViewById(R.id.etSexo);
         btnRegistrar = findViewById(R.id.btnRegistrar);
 
-        // Configurar el presentador con la actividad
         presenter = new RegistroUserPresenter(this);
 
-
-        // Agregar un listener al botón "Registrar" para manejar el clic
-        btnRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Obtener los datos del formulario
-                String nombre = etNombre.getText().toString();
-                String apellidos = etApellidos.getText().toString();
-                String correo = etCorreo.getText().toString();
-                String contraseña = etContraseña.getText().toString();
-                String fechaNacimiento = etFechaNacimiento.getText().toString();
-                String sexo = etSexo.getText().toString();
-
-                // Llamar al método del presentador para registrar el usuario
-                presenter.registrarUsuario(nombre, apellidos, correo, contraseña, fechaNacimiento, sexo);
-            }
-        });
+        // Funcs to buttons
+        this.btnRegistrar.setOnClickListener(view-> this.createUser());
     }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void createUser(){
+
+        String names = etNombre.getText().toString();
+        String lastnames = etApellidos.getText().toString();
+        String email = etCorreo.getText().toString();
+        String password = etContraseña.getText().toString();
+        String dateBorn = etFechaNacimiento.getText().toString();
+        char sex = etSexo.getText().charAt(0);
+
+        presenter.createUser(names, lastnames, email, password, dateBorn, sex);
+    }
+
 }

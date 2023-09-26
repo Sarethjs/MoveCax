@@ -1,126 +1,126 @@
 package dev.movecax.models;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import dev.movecax.Presenters.RegistroUserPresenter;
+import dev.movecax.views.RegistroUserView;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Users {
-    private int Id;
-    private String Names;
-    private String Email;
-    private String Password;
-    private Date DateBorn;
-    private char Sex;
+    private int id;
+    private String names;
+    private String lastnames;
+    private String email;
+    private String password;
+    private Date dateBorn;
+    private char sex;
     private History History;
 
-    // Constructor para crear usuario con Strings y String para el género
-    public Users(String Names, String Email, String Password, String DateBorn, String Sex, String sexo) {
-        this.Names = Names;
-        this.Email = Email;
-        this.Password = Password;
-        // Convierte la cadena DateBorn en un objeto Date, asumiendo un formato específico
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Ajusta el formato según tus necesidades
-        try {
-            this.DateBorn = dateFormat.parse(DateBorn);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        // Convierte la cadena Sex en un carácter
-        if (Sex != null && !Sex.isEmpty()) {
-            this.Sex = Sex.charAt(0);
-        } else {
-            this.Sex = ' '; // Valor predeterminado si la cadena está vacía
-        }
+    public Users () {}
+    public Users(String Names, String lastnames, String Email, String Password, Date DateBorn,  char Sex) {
+        this.names = Names;
+        this.email = Email;
+        this.lastnames = lastnames;
+        this.password = Password;
+        this.sex = Sex;
+        this.dateBorn = DateBorn;
     }
+
+    public void createUser(RegistroUserPresenter presenter) {
+        Log.d("uses", "Creating user");
+
+        UserService userService = UserService.retrofit.create(UserService.class);
+        Call<Users> call = userService.createUser(this);
+        call.enqueue(new Callback<Users>() {
+            @Override
+            public void onResponse(Call<Users> call, Response<Users> response) {
+                if (response.isSuccessful()) {
+                    presenter.showMessage("Usuario creado");
+                } else {
+                    presenter.showMessage("Error: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Users> call, Throwable t) {
+                presenter.showMessage("Error fatal al intentar conectar con el servidor");
+            }
+        });
+    }
+
 
     // Getters y setters
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int Id) {
-        this.Id = Id;
+        this.id = Id;
     }
 
     public String getNames() {
-        return Names;
+        return names;
     }
 
     public void setNames(String Names) {
-        this.Names = Names;
+        this.names = Names;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String Email) {
-        this.Email = Email;
+        this.email = Email;
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String Password) {
-        this.Password = Password;
+        this.password = Password;
     }
 
     public Date getDateBorn() {
-        return DateBorn;
+        return dateBorn;
     }
 
     public void setDateBorn(Date DateBorn) {
-        this.DateBorn = DateBorn;
+        this.dateBorn = DateBorn;
     }
 
     public char getSex() {
-        return Sex;
+        return sex;
     }
 
     public void setSex(char Sex) {
-        this.Sex = Sex;
+        this.sex = Sex;
     }
 
     public History getHistory() {
         return History;
     }
 
-    public void setHistory(History History) {
-        this.History = History;
+    public String getLastnames() {
+        return lastnames;
     }
 
-    public void createUser() {
-        // Configurar Retrofit
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://possible-steady-narwhal.ngrok-free.app/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public void setLastnames(String lastnames) {
+        this.lastnames = lastnames;
+    }
 
-        // Crear una instancia de tu servicio Retrofit
-        UserService userService = retrofit.create(UserService.class);
-
-        // Realizar la llamada Retrofit para crear el usuario
-        Call<Users> call = userService.createUser(this); // Pasar la instancia actual de Users
-
-        try {
-            Response<Users> response = call.execute();
-
-            if (response.isSuccessful()) {
-                Users createdUser = response.body();
-
-                // Aquí puedes realizar acciones adicionales si es necesario
-            } else {
-                // Manejar el caso en que la solicitud no sea exitosa
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void setHistory(History History) {
+        this.History = History;
     }
 }
 
