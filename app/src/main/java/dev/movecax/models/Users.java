@@ -1,8 +1,9 @@
 package dev.movecax.models;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -17,18 +18,27 @@ public class Users {
     private char Sex;
     private History History;
 
-    // Constructor
-    public Users(int Id, String Names, String Email, String Password, Date DateBorn, char Sex, History History) {
-        this.Id = Id;
+    // Constructor para crear usuario con Strings y String para el género
+    public Users(String Names, String Email, String Password, String DateBorn, String Sex, String sexo) {
         this.Names = Names;
         this.Email = Email;
         this.Password = Password;
-        this.DateBorn = DateBorn;
-        this.Sex = Sex;
-        this.History = History;
+        // Convierte la cadena DateBorn en un objeto Date, asumiendo un formato específico
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Ajusta el formato según tus necesidades
+        try {
+            this.DateBorn = dateFormat.parse(DateBorn);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        // Convierte la cadena Sex en un carácter
+        if (Sex != null && !Sex.isEmpty()) {
+            this.Sex = Sex.charAt(0);
+        } else {
+            this.Sex = ' '; // Valor predeterminado si la cadena está vacía
+        }
     }
 
-    // Métodos getters y setters
+    // Getters y setters
     public int getId() {
         return Id;
     }
@@ -85,7 +95,6 @@ public class Users {
         this.History = History;
     }
 
-
     public void createUser() {
         // Configurar Retrofit
         Retrofit retrofit = new Retrofit.Builder()
@@ -96,11 +105,8 @@ public class Users {
         // Crear una instancia de tu servicio Retrofit
         UserService userService = retrofit.create(UserService.class);
 
-        // Crear un objeto User con los datos del usuario
-        Users newUser = new Users(Id, Names, Email, Password, DateBorn, Sex, History);
-
         // Realizar la llamada Retrofit para crear el usuario
-        Call<Users> call = userService.createUser(newUser);
+        Call<Users> call = userService.createUser(this); // Pasar la instancia actual de Users
 
         try {
             Response<Users> response = call.execute();
@@ -108,14 +114,14 @@ public class Users {
             if (response.isSuccessful()) {
                 Users createdUser = response.body();
 
+                // Aquí puedes realizar acciones adicionales si es necesario
             } else {
-
+                // Manejar el caso en que la solicitud no sea exitosa
             }
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
-
 }
+
 
