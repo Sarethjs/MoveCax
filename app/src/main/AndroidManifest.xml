@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MoveCax"
         tools:targetApi="31">
         <activity
+            android:name=".degradado"
+            android:exported="false" />
+        <activity
+            android:name=".views.RegistroUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
