@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    > <!-- Fondo de la imagen City -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"> <!-- Fondo de la imagen City -->
 
     <!-- Layout para centrar los campos de registro verticalmente -->
     <LinearLayout
@@ -18,80 +18,154 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Registro"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold"/>
 
         <!-- Campo de Nombre -->
-        <EditText
-            android:id="@+id/etNombre"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"
+                android:drawableStart="@drawable/ic_action_user"
+                android:background="#FFFFFF"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Campo de Apellidos -->
-        <EditText
-            android:id="@+id/etApellidos"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellidos"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etApellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Apellidos"
+                android:drawableStart="@drawable/ic_action_user"
+                android:background="#FFFFFF"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Campo de Correo -->
-        <EditText
-            android:id="@+id/etCorreo"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Correo"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Correo"
+                android:drawableStart="@drawable/ic_action_email"
+                android:background="#FFFFFF"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Campo de Contraseña -->
-        <EditText
-            android:id="@+id/etContraseña"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:passwordToggleEnabled="true"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etContraseña"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:drawableStart="@drawable/ic_action_password"
+                android:background="#FFFFFF"
+                android:inputType="textPassword"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Campo de Fecha de Nacimiento -->
-        <EditText
-            android:id="@+id/etFechaNacimiento"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha de Nacimiento"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etFechaNacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fecha de Nacimiento (dd/mm/yyyy)"
+                android:drawableStart="@drawable/ic_action_cumple"
+                android:background="#FFFFFF"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:inputType="date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Campo de Sexo -->
-        <EditText
-            android:id="@+id/etSexo"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sexo"
-            android:background="#FFFFFF"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
+            app:boxBackgroundMode="filled"
+            app:boxStrokeColor="#CCCCCC"
+            app:boxStrokeWidth="2dp">
+
+            <EditText
+                android:id="@+id/etSexo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Sexo"
+                android:drawableStart="@drawable/ic_action_sex"
+                android:background="#FFFFFF"
+                android:drawablePadding="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botón "Registrar" en la parte inferior -->
         <Button
             android:id="@+id/btnRegistrar"
-            android:layout_width="251dp"
+            android:layout_width="300dp"
             android:layout_height="54dp"
+            android:layout_marginTop="16dp"
             android:text="Registrar"
-            android:layout_marginTop="16dp" />
+            android:textColorHighlight="#673AB7"
+            android:textColorLink="#673AB7" />
     </LinearLayout>
 </RelativeLayout>
