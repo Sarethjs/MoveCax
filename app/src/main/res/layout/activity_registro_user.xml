@@ -105,7 +105,8 @@
                     android:background="@drawable/rounded_background"
                     android:drawableStart="@drawable/ic_action_email"
                     android:drawablePadding="10dp"
-                    android:hint="Correo" />
+                    android:hint="Correo"
+                    android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo de Contraseña -->
@@ -154,8 +155,7 @@
                     android:background="@drawable/rounded_background"
                     android:drawableStart="@drawable/ic_action_cumple"
                     android:drawablePadding="10dp"
-                    android:hint="Fecha de Nacimiento (dd/mm/yyyy)"
-                    android:inputType="date" />
+                    android:hint="Fecha de Nacimiento"  />
 
             </com.google.android.material.textfield.TextInputLayout>
 
