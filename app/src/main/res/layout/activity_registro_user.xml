@@ -1,171 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"> <!-- Fondo de la imagen City -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/City"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:paddingBottom="15dp">
 
     <!-- Layout para centrar los campos de registro verticalmente -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
-
-        <!-- Título "Registro" -->
-        <TextView
-            android:id="@+id/tvRegistro"
+        >
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Registro"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:layout_height="200dp"
+            android:src="@drawable/Logo"
+            android:layout_marginBottom="-50dp"
+            android:layout_marginTop="-55dp"/>
 
-        <!-- Campo de Nombre -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etNombre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre"
-                android:drawableStart="@drawable/ic_action_user"
-                android:background="#FFFFFF"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Campo de Apellidos -->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etApellidos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Apellidos"
-                android:drawableStart="@drawable/ic_action_user"
-                android:background="#FFFFFF"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Campo de Correo -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Correo"
-                android:drawableStart="@drawable/ic_action_email"
-                android:background="#FFFFFF"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Campo de Contraseña -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etContraseña"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contraseña"
-                android:drawableStart="@drawable/ic_action_password"
-                android:background="#FFFFFF"
-                android:inputType="textPassword"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Campo de Fecha de Nacimiento -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etFechaNacimiento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Fecha de Nacimiento (dd/mm/yyyy)"
-                android:drawableStart="@drawable/ic_action_cumple"
-                android:background="#FFFFFF"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:inputType="date" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- Campo de Sexo -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
-            app:boxStrokeColor="#CCCCCC"
-            app:boxStrokeWidth="2dp">
-
-            <EditText
-                android:id="@+id/etSexo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Sexo"
-                android:drawableStart="@drawable/ic_action_sex"
-                android:background="#FFFFFF"
-                android:drawablePadding="10dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Botón "Registrar" en la parte inferior -->
-        <Button
-            android:id="@+id/btnRegistrar"
-            android:layout_width="300dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
-            android:text="Registrar"
-            android:textColorHighlight="#673AB7"
-            android:textColorLink="#673AB7" />
     </LinearLayout>
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:background="@drawable/rounded_back"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:padding="20dp">
+
+            <!-- Título "Registro" -->
+            <TextView
+                android:id="@+id/tvRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registro"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <!-- Campo de Nombre -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp">
+
+                <EditText
+                    android:id="@+id/etNombre"
+                    style="@style/Widget.AppCompat.AutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_user"
+                    android:drawablePadding="10dp"
+                    android:hint="Nombre" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de Apellidos -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp">
+
+                <EditText
+                    android:id="@+id/etApellidos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_user"
+                    android:drawablePadding="10dp"
+                    android:hint="Apellidos" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de Correo -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp">
+
+                <EditText
+                    android:id="@+id/etCorreo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_email"
+                    android:drawablePadding="10dp"
+                    android:hint="Correo" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de Contraseña -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp"
+                app:passwordToggleEnabled="true">
+
+                <EditText
+                    android:id="@+id/etContraseña"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_password"
+                    android:drawablePadding="10dp"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de Fecha de Nacimiento -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp">
+
+                <DatePicker
+                    android:layout_width="500dp"
+                    android:layout_height="400dp"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/etFechaNacimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_cumple"
+                    android:drawablePadding="10dp"
+                    android:hint="Fecha de Nacimiento (dd/mm/yyyy)"
+                    android:inputType="date" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Campo de Sexo -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxBackgroundMode="filled"
+                app:boxStrokeColor="#CCCCCC"
+                app:boxStrokeWidth="2dp">
+
+                <EditText
+                    android:id="@+id/etSexo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:drawableStart="@drawable/ic_action_sex"
+                    android:drawablePadding="10dp"
+                    android:hint="Sexo" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Botón "Registrar" en la parte inferior -->
+            <Button
+                android:id="@+id/btnRegistrar"
+                android:layout_width="300dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="16dp"
+                android:text="Registrar"
+                android:textColorHighlight="#673AB7"
+                android:textColorLink="#673AB7" />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:gravity="center"
+               android:layout_marginTop="10dp">
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="¿Ya tienes una cuenta?"
+                   android:textColor="@color/white"
+                   android:textStyle="bold"
+                   android:textSize="18sp"
+                   android:layout_marginRight="5dp"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Iniciar sesión"
+                   android:textColor="#7640dd"
+                   android:textStyle="bold"
+                   android:textSize="18sp"/>
+
+           </LinearLayout>
+        </LinearLayout>
+
+</LinearLayout>
+
