@@ -1,9 +1,12 @@
 package dev.movecax.views;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
@@ -20,6 +23,7 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
     private EditText etDateBorn;
     private EditText etSex;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +35,18 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
         etPassword = findViewById(R.id.etContraseña);
         etDateBorn = findViewById(R.id.etFechaNacimiento);
         etSex = findViewById(R.id.etSexo);
-        Button btnRegister = findViewById(R.id.btnRegistrar);
 
         presenter = new RegistroUserPresenter(this);
 
         // Functionality for buttons
+        Button btnRegister = findViewById(R.id.btnRegistrar);
         btnRegister.setOnClickListener(view-> this.createUser());
+
+        TextView sign = this.findViewById(R.id.tvSign);
+        sign.setOnClickListener(v-> {
+            Intent intent = new Intent(this, LoginUserActivity.class);
+            this.startActivity(intent);
+        });
     }
 
     @Override

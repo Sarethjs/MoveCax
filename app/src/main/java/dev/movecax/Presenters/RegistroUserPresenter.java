@@ -9,7 +9,7 @@ import java.util.Date;
 import dev.movecax.models.User;
 import dev.movecax.views.RegistroUserActivity;
 
-public class RegistroUserPresenter {
+public class RegistroUserPresenter implements UserModelListener.LoginListener{
     private RegistroUserActivity view;
     private User user;
 
@@ -31,6 +31,21 @@ public class RegistroUserPresenter {
             // We can show a custom error message
             this.view.showMessage("Ingrese una fecha en el formato correcto");
         }
+    }
+
+    @Override
+    public void userLogged(String message) {
+        this.view.showMessage(message);
+    }
+
+    @Override
+    public void userNotLogged(String message) {
+        this.view.showMessage(message);
+    }
+
+    @Override
+    public void onFailure() {
+        this.view.showMessage("Error al realizar la petición");
     }
 
     public void showMessage(String msg) {

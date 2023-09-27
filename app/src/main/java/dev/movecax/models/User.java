@@ -2,9 +2,12 @@ package dev.movecax.models;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
+import dev.movecax.Presenters.UserModelListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,6 +50,32 @@ public class User {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 presenter.showMessage("Error fatal al intentar conectar con el servidor");
+            }
+        });
+    }
+
+
+    public void getUser(UserModelListener.LoginListener listener) {
+
+        UserService service = UserService.retrofit.create(UserService.class);
+        Call<User> call = service.getUser(this);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call,
+                                   @NonNull Response<User> response) {
+
+                if (response.isSuccessful()){
+                    Log.d("uses", "Response: " + response);
+                    listener.userLogged("User logged");
+                } else{
+                    listener.userNotLogged("User not logged: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call,
+                                  @NonNull Throwable t) {
+                listener.onFailure();
             }
         });
     }
