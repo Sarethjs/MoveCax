@@ -19,8 +19,6 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
     private EditText etEmail, etPassword;
     private Button btnSign;
     private LoginUserPresenter presenter;
-    private TextView tvRegister;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +32,11 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
         this.btnSign = this.findViewById(R.id.btnSign);
         this.btnSign.setOnClickListener(v->  login());
 
-        this.tvRegister = this.findViewById(R.id.tvRegister);
-        this.tvRegister.setOnClickListener(v-> {
+        TextView tvRegister = this.findViewById(R.id.tvRegister);
+        tvRegister.setOnClickListener(v-> {
             Intent intent = new Intent(this, RegistroUserActivity.class);
             this.startActivity(intent);
+            this.finish();
         });
 
         // Set presenter for this view

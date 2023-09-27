@@ -46,6 +46,7 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
         sign.setOnClickListener(v-> {
             Intent intent = new Intent(this, LoginUserActivity.class);
             this.startActivity(intent);
+            this.finish();
         });
     }
 
