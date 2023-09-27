@@ -31,7 +31,6 @@
             android:background="@drawable/rounded_back"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginLeft="15dp"
             android:padding="20dp">
 
             <!-- Título "Registro" -->
@@ -217,6 +216,6 @@
 
            </LinearLayout>
         </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>
 
