@@ -105,7 +105,7 @@ public class PantallaDeCargaActivity extends AppCompatActivity {
             public void run(){
                 try {
                     sleep(3000);
-                    Intent intent = new Intent(getApplicationContext(), RegistroUserActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginUserActivity.class);
                     startActivity(intent);
                     finish();
                 }catch (InterruptedException e){
