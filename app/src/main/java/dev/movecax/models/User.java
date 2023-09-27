@@ -55,10 +55,11 @@ public class User {
     }
 
 
-    public void getUser(UserModelListener.LoginListener listener) {
+    public void findUser(UserModelListener.LoginListener listener) {
 
         UserService service = UserService.retrofit.create(UserService.class);
         Call<User> call = service.getUser(this);
+
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call,

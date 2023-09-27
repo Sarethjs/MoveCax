@@ -67,7 +67,6 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
         String password = etPassword.getText().toString();
         String dateBorn = etDateBorn.getText().toString();
         char sex = etSex.getText().charAt(0);
-
         presenter.createUser(names, lastnames, email, password, dateBorn, sex);
     }
 
