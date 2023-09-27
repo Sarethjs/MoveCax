@@ -2,9 +2,11 @@ package dev.movecax.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import dev.movecax.Presenters.LoginUserPresenter;
@@ -17,6 +19,7 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
     private EditText etEmail, etPassword;
     private Button btnSign;
     private LoginUserPresenter presenter;
+    private TextView tvRegister;
 
 
     @Override
@@ -31,10 +34,17 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
         this.btnSign = this.findViewById(R.id.btnSign);
         this.btnSign.setOnClickListener(v->  login());
 
+        this.tvRegister = this.findViewById(R.id.tvRegister);
+        this.tvRegister.setOnClickListener(v-> {
+            Intent intent = new Intent(this, RegistroUserActivity.class);
+            this.startActivity(intent);
+        });
 
         // Set presenter for this view
         this.presenter = new LoginUserPresenter(this);
     }
+
+
 
     private void login() {
 
