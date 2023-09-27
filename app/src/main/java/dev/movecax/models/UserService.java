@@ -13,5 +13,5 @@ public interface UserService {
             .build();
 
     @POST("users/create")
-    Call<Users> createUser(@Body Users user);
+    Call<User> createUser(@Body User user);
 }

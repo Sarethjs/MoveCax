@@ -2,20 +2,14 @@ package dev.movecax.models;
 
 import android.util.Log;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
-import dev.movecax.views.RegistroUserView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Users {
+public class User {
     private int id;
     private String names;
     private String lastnames;
@@ -25,8 +19,8 @@ public class Users {
     private char sex;
     private History History;
 
-    public Users () {}
-    public Users(String Names, String lastnames, String Email, String Password, Date DateBorn,  char Sex) {
+    public User() {}
+    public User(String Names, String lastnames, String Email, String Password, Date DateBorn, char Sex) {
         this.names = Names;
         this.email = Email;
         this.lastnames = lastnames;
@@ -39,10 +33,10 @@ public class Users {
         Log.d("uses", "Creating user");
 
         UserService userService = UserService.retrofit.create(UserService.class);
-        Call<Users> call = userService.createUser(this);
-        call.enqueue(new Callback<Users>() {
+        Call<User> call = userService.createUser(this);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     presenter.showMessage("Usuario creado");
                 } else {
@@ -51,7 +45,7 @@ public class Users {
             }
 
             @Override
-            public void onFailure(Call<Users> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 presenter.showMessage("Error fatal al intentar conectar con el servidor");
             }
         });

@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class Comment {
     private int id;
-    private Users users;
+    private User user;
     private Route route;
     private Date published;
 
     // Constructor
-    public Comment(int id, Users users, Route route, Date published) {
+    public Comment(int id, User user, Route route, Date published) {
         this.id = id;
-        this.users = users;
+        this.user = user;
         this.route = route;
         this.published = published;
     }
@@ -25,12 +25,12 @@ public class Comment {
         this.id = id;
     }
 
-    public Users getUsers() {
-        return users;
+    public User getUsers() {
+        return user;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUsers(User user) {
+        this.user = user;
     }
 
     public Route getRoute() {
