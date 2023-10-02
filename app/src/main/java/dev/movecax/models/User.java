@@ -39,7 +39,8 @@ public class User {
         Call<User> call = userService.createUser(this);
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call,
+                                   @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
                     presenter.showMessage("Usuario creado");
                 } else {
@@ -48,7 +49,8 @@ public class User {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call,
+                                  @NonNull Throwable t) {
                 presenter.showMessage("Error fatal al intentar conectar con el servidor");
             }
         });
@@ -59,6 +61,7 @@ public class User {
 
         UserService service = UserService.retrofit.create(UserService.class);
         Call<User> call = service.getUser(this);
+        Log.d("uses", "findUser: Sending data: " + this);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -66,10 +69,12 @@ public class User {
                                    @NonNull Response<User> response) {
 
                 if (response.isSuccessful()){
-                    Log.d("uses", "Response: " + response);
-                    listener.userLogged("User logged");
+                    User user = response.body();
+                    Log.i("uses", "onResponse: " + user);
+                    listener.userLogged(user.getNames() + " logged");
                 } else{
                     listener.userNotLogged("User not logged: " + response.errorBody());
+                    Log.d("uses", "Response: " + response.errorBody());
                 }
             }
 
@@ -77,6 +82,8 @@ public class User {
             public void onFailure(@NonNull Call<User> call,
                                   @NonNull Throwable t) {
                 listener.onFailure();
+                Log.d("uses", "onFailure: Request failed");
+                Log.d("uses", "onFailure: T " + t);
             }
         });
     }
@@ -145,6 +152,22 @@ public class User {
 
     public void setHistory(History History) {
         this.History = History;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", names='" + names + '\'' +
+                ", lastnames='" + lastnames + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", dateBorn=" + dateBorn +
+                ", sex=" + sex +
+                ", History=" + History +
+                '}';
     }
 }
 

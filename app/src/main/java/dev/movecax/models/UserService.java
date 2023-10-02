@@ -6,6 +6,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface UserService {
     Retrofit retrofit = new Retrofit.Builder()
@@ -16,6 +18,6 @@ public interface UserService {
     @POST("users/create")
     Call<User> createUser(@Body User user);
 
-    @GET("users/login")
+    @POST("users/login")
     Call<User> getUser(@Body User user);
 }
