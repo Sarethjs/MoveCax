@@ -94,9 +94,10 @@
             android:layout_width="300dp"
             android:layout_height="54dp"
             android:layout_marginTop="16dp"
-            android:text="Ingreesar"
+            android:text="Ingresar"
             android:textColorHighlight="#673AB7"
-            android:textColorLink="#673AB7" />
+            android:textColorLink="#673AB7"
+            android:backgroundTint="@color/purple_modified"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Registrate"
-                android:textColor="#7640dd"
+                android:textColor="@color/purple_modified"
                 android:textStyle="bold"
                 android:textSize="18sp"/>
 

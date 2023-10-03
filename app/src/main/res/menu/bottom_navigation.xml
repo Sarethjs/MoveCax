@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/firstFragment"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Explorar" />
+
+    <item
+        android:id="@+id/secondFragment"
+        android:icon="@android:drawable/btn_star"
+        android:title="Favoritos" />
+
+    <item
+        android:id="@+id/thirdFragment"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Historial" />
+    <item
+        android:id="@+id/fourthFragment"
+        android:icon="@drawable/ic_action_perfil"
+        android:title="Perfil" />
+
+</menu>

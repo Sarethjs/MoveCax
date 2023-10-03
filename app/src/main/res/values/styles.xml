@@ -8,4 +8,13 @@
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
+
+    <style name="SearchViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:queryHint">Buscar...</item>
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="android:background">@drawable/custom_searchview_background</item>
+    </style>
 </resources>
