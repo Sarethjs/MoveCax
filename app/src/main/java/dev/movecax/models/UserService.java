@@ -25,4 +25,7 @@ public interface UserService {
 
     @POST("users/find")
     Call<User> getUserByToken(@Body JsonObject json);
+
+    @POST("users/logout")
+    Call<Void> logout(@Body User user);
 }

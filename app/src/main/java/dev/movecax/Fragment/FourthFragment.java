@@ -2,6 +2,8 @@ package dev.movecax.Fragment;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,17 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
-import com.google.android.material.textfield.TextInputLayout;
-import dev.movecax.R;
+import android.widget.Toast;
 
-public class FourthFragment extends Fragment {
+import com.google.android.material.textfield.TextInputLayout;
+
+import dev.movecax.Presenters.ChangePassword;
+import dev.movecax.Presenters.contracts.LogoutUserContract;
+import dev.movecax.R;
+import dev.movecax.models.User;
+import dev.movecax.singleton.UserSingleton;
+
+public class FourthFragment extends Fragment implements LogoutUserContract {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -48,8 +57,19 @@ public class FourthFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fourth, container, false);
 
+        // Debug for current user
+        Log.d("uses", "onCreateView: Current user: " + UserSingleton.getCurrentUser());
+
         // Obtén una referencia al EditText que contiene la contraseña
         EditText etContraseña = view.findViewById(R.id.etContraseña);
+        Button changePass = view.findViewById(R.id.closeSession);
+        Log.d("uses", "onCreateView: Close session: " + changePass);
+
+        // Register presenter
+        ChangePassword presenter = new ChangePassword(this);
+
+        changePass.setOnClickListener(v -> presenter.logout());
+
 
         // Configura un OnClickListener para el ícono (drawableEnd)
         etContraseña.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_action_editar, 0);
@@ -115,5 +135,15 @@ public class FourthFragment extends Fragment {
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void userLogout(String message) {
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void error(String message) {
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

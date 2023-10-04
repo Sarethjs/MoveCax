@@ -8,5 +8,10 @@ public interface UserModelListener {
         void onFailure();
     }
 
+    interface LogoutListener {
+        void userLogout(String message);
+        void onFailure(String message);
+    }
+
 
 }
