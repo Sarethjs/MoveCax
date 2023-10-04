@@ -1,5 +1,7 @@
 package dev.movecax.models;
 
+import com.google.gson.JsonObject;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,9 +17,12 @@ public interface UserService {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    @POST("users/create")
+    @POST("users/register")
     Call<User> createUser(@Body User user);
 
     @POST("users/login")
     Call<User> getUser(@Body User user);
+
+    @POST("users/find")
+    Call<User> getUserByToken(@Body JsonObject json);
 }
