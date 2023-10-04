@@ -57,11 +57,19 @@ public class FourthFragment extends Fragment implements LogoutUserContract {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fourth, container, false);
 
+        //EditText
+        EditText etNombrePerfil = view.findViewById(R.id.etNombrePerfil);
+        EditText etApellidosPerfil = view.findViewById(R.id.etApellidosPerfil);
+        EditText etCorreoPerfil = view.findViewById(R.id.etCorreoPerfil);
+        EditText etPasswordPerfil = view.findViewById(R.id.etPasswordPerfil);
+        EditText etFechaNacimientoPerfil = view.findViewById(R.id.etFechaNacimientoPerfil);
+        EditText etSexoPerfil = view.findViewById(R.id.etSexoPerfil);
+
         // Debug for current user
         Log.d("uses", "onCreateView: Current user: " + UserSingleton.getCurrentUser());
 
         // Obtén una referencia al EditText que contiene la contraseña
-        EditText etContraseña = view.findViewById(R.id.etContraseña);
+        EditText etContraseña = view.findViewById(R.id.etPasswordPerfil);
         Button changePass = view.findViewById(R.id.closeSession);
         Log.d("uses", "onCreateView: Close session: " + changePass);
 

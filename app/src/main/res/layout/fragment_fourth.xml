@@ -71,7 +71,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <EditText
-                    android:id="@+id/etNombre"
+                    android:id="@+id/etNombrePerfil"
                     style="@style/Widget.AppCompat.AutoCompleteTextView"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -107,7 +107,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <EditText
-                    android:id="@+id/etApellidos"
+                    android:id="@+id/etApellidosPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -142,7 +142,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <EditText
-                    android:id="@+id/etCorreo"
+                    android:id="@+id/etCorreoPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -175,7 +175,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <EditText
-                    android:id="@+id/etContraseña"
+                    android:id="@+id/etPasswordPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -216,7 +216,7 @@
                     android:visibility="gone" />
 
                 <EditText
-                    android:id="@+id/etFechaNacimiento"
+                    android:id="@+id/etFechaNacimientoPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
@@ -251,7 +251,7 @@
                 app:boxStrokeWidth="2dp">
 
                 <EditText
-                    android:id="@+id/etSexo"
+                    android:id="@+id/etSexoPerfil"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginStart="16dp"
