@@ -184,9 +184,10 @@
                     android:background="@drawable/rounded_background"
                     android:drawableEnd="@drawable/ic_action_editar"
                     android:drawablePadding="10dp"
-                    android:hint="Contraseña"
+                    android:hint="*******"
                     android:inputType="textPassword"
-                    android:onClick="mostrarPopupEditarContraseña"/>
+                    android:onClick="mostrarPopupEditarContraseña"
+                    android:editable="false"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo de Fecha de Nacimiento -->
