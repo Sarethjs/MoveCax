@@ -5,23 +5,33 @@ import android.annotation.SuppressLint;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowInsets;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
+import dev.movecax.MainActivity;
+import dev.movecax.Presenters.UserModelListener;
 import dev.movecax.databinding.ActivityPantallaDeCargaBinding;
 import dev.movecax.R;
+import dev.movecax.models.User;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class PantallaDeCargaActivity extends AppCompatActivity {
+public class PantallaDeCargaActivity extends AppCompatActivity implements
+        UserModelListener.LoginListener {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -99,23 +109,37 @@ public class PantallaDeCargaActivity extends AppCompatActivity {
         binding = ActivityPantallaDeCargaBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //MODIFICAR AQUI
-        Thread myThread = new Thread(){
-            @Override
-            public void run(){
-                try {
-                    sleep(3000);
-                    Intent intent = new Intent(getApplicationContext(), LoginUserActivity.class);
-                    startActivity(intent);
-                    finish();
-                }catch (InterruptedException e){
-                    e.printStackTrace();
+
+        // Validate token
+        SharedPreferences sharedPreferences = this.getSharedPreferences("token.cax", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("authToken", "");
+
+        if (!token.equals("")) { // Token exists, get user using token
+
+            JsonObject json = new JsonObject();
+            json.addProperty("token", token);
+            User.findUserByToken(json, this);
+            Log.d("uses", "onCreate: Token: " + token);
+        }
+
+        else {
+            Thread myThread = new Thread(){
+                @Override
+                public void run(){
+                    try {
+                        sleep(3000);
+                        Intent intent = new Intent(getApplicationContext(), LoginUserActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
                 }
-            }
-        };
-        myThread.start();
+            };
+            myThread.start();
+        }
 
-
+        Log.d("uses", "onSharedPreferenceChanged: Getting token from device: " + token);
     }
 
     @Override
@@ -134,6 +158,11 @@ public class PantallaDeCargaActivity extends AppCompatActivity {
         } else {
             show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     private void hide() {
@@ -174,4 +203,30 @@ public class PantallaDeCargaActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+    @Override
+    public void userLogged(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        // Open home activity
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
+        this.finish();
+    }
+
+    @Override
+    public void userNotLogged(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        // Open Sign Activity
+        this.startActivity(new Intent(this, LoginUserActivity.class));
+        this.finish();
+    }
+
+    @Override
+    public void onFailure() {
+        Toast.makeText(this, "Error, vuelva a iniciar sesión", Toast.LENGTH_SHORT).show();
+        // Open Sign Activity
+        this.startActivity(new Intent(this, LoginUserActivity.class));
+        this.finish();
+    }
+
 }

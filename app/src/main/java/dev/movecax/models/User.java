@@ -1,13 +1,17 @@
 package dev.movecax.models;
 
 import android.util.Log;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+
+import com.google.gson.JsonObject;
 
 import java.util.Date;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.Presenters.UserModelListener;
+import dev.movecax.singleton.UserSingleton;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,6 +20,7 @@ public class User {
     private int id;
     private String names;
     private String lastnames;
+    private String token;
     private String email;
     private String password;
     private Date dateBorn;
@@ -45,6 +50,7 @@ public class User {
                     presenter.showMessage("Usuario creado");
                 } else {
                     presenter.showMessage("Error: " + response.errorBody());
+                    Log.d("uses", "onResponse: " + response);
                 }
             }
 
@@ -71,7 +77,11 @@ public class User {
                 if (response.isSuccessful()){
                     User user = response.body();
                     Log.i("uses", "onResponse: " + user);
-                    listener.userLogged(user.getNames() + " logged");
+
+                    // Create User Singleton
+                    UserSingleton.setCurrentUser(user);
+
+                    listener.userLogged("Login exitoso");
                 } else{
                     listener.userNotLogged("User not logged: " + response.errorBody());
                     Log.d("uses", "Response: " + response.errorBody());
@@ -86,6 +96,41 @@ public class User {
                 Log.d("uses", "onFailure: T " + t);
             }
         });
+    }
+
+    public static void findUserByToken(JsonObject json, UserModelListener.LoginListener listener){
+        UserService service = UserService.retrofit.create(UserService.class);
+        Call<User> call = service.getUserByToken(json);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call,
+                                   @NonNull Response<User> response) {
+                Log.d("uses", "onResponse: Searching user by: " + json );
+                if (response.isSuccessful()){
+                    User user = response.body();
+
+                    // Create user Singleton
+                    UserSingleton.setCurrentUser(user);
+                    listener.userLogged("Sesión iniciada");
+                    Log.d("uses", "onResponse: Getting user by token" + response);
+                }
+
+                else {
+                    listener.userNotLogged("Sesión no iniciada");
+                    Log.d("uses", "onResponse: Getting user by token: (err)" + response.headers());
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call,
+                                  @NonNull Throwable t) {
+                listener.onFailure();
+
+            }
+        });
+
     }
 
 
@@ -154,6 +199,13 @@ public class User {
         this.History = History;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     @NonNull
     @Override
