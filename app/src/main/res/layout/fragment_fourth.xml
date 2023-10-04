@@ -42,26 +42,26 @@
             android:padding="10dp"/>
 
         <LinearLayout
+            android:id="@+id/logoutUser"
             android:layout_width="365dp"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_perfil"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="15dp"
             android:overScrollMode="ifContentScrolls"
-            >
+            android:padding="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Nombre"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -80,8 +80,8 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_background"
                     android:drawablePadding="10dp"
-                    android:hint="Nombre"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:hint="Nombre" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,14 +90,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Apellidos"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Apellidos"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -115,8 +115,8 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_background"
                     android:drawablePadding="10dp"
-                    android:hint="Apellidos"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:hint="Apellidos" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,14 +125,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Correo"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Correo"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -150,22 +150,22 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_background"
                     android:drawablePadding="10dp"
-                    android:hint="Correo"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:hint="Correo" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo de Contraseña -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contraseña"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Contraseña"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -186,21 +186,21 @@
                     android:drawablePadding="10dp"
                     android:hint="Contraseña"
                     android:inputType="textPassword"
-                    android:onClick="mostrarPopupEditarContraseña"/>
+                    android:onClick="mostrarPopupEditarContraseña" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo de Fecha de Nacimiento -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fecha de Nacimiento"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Fecha de Nacimiento"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -223,9 +223,9 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_background"
                     android:drawablePadding="10dp"
+                    android:editable="false"
                     android:hint="Fecha de Nacimiento"
-                    android:inputType="date"
-                    android:editable="false"/>
+                    android:inputType="date" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -233,14 +233,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sexo"
-                android:textColor="#000000"
-                android:textSize="16sp"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:fontFamily="sans-serif-black"/>
+                android:fontFamily="sans-serif-black"
+                android:text="Sexo"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -258,12 +258,13 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rounded_background"
                     android:drawablePadding="10dp"
-                    android:hint="Sexo"
-                    android:editable="false"/>
+                    android:editable="false"
+                    android:hint="Sexo" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <Button
+            android:id="@+id/closeSession"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:backgroundTint="@color/red_modified"

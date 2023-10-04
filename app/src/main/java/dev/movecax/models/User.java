@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.JsonObject;
 
 import java.util.Date;
+import java.util.UUID;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.Presenters.UserModelListener;
@@ -112,6 +113,7 @@ public class User {
 
                     // Create user Singleton
                     UserSingleton.setCurrentUser(user);
+                    Log.d("uses", "onResponse: User by token: " + UserSingleton.getCurrentUser());
                     listener.userLogged("Sesión iniciada");
                     Log.d("uses", "onResponse: Getting user by token" + response);
                 }
@@ -130,7 +132,30 @@ public class User {
 
             }
         });
+    }
 
+    public void logout(UserModelListener.LogoutListener listener) {
+        UserService service = UserService.retrofit.create(UserService.class);
+        Call<Void> call = service.logout(this);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Remove Singleton
+                    UserSingleton.setCurrentUser(null);
+                    listener.userLogout("Good bye, I'll waiting for you");
+                }
+                else {
+                    listener.onFailure("Vuelve a intentarlo");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
 
