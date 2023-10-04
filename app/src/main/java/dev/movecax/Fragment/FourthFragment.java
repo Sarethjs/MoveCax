@@ -11,9 +11,12 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import dev.movecax.Presenters.ChangePassword;
 import dev.movecax.Presenters.contracts.LogoutUserContract;
@@ -58,24 +61,33 @@ public class FourthFragment extends Fragment implements LogoutUserContract {
         View view = inflater.inflate(R.layout.fragment_fourth, container, false);
 
         //EditText
-        EditText etNombrePerfil = view.findViewById(R.id.etNombrePerfil);
-        EditText etApellidosPerfil = view.findViewById(R.id.etApellidosPerfil);
-        EditText etCorreoPerfil = view.findViewById(R.id.etCorreoPerfil);
-        EditText etPasswordPerfil = view.findViewById(R.id.etPasswordPerfil);
-        EditText etFechaNacimientoPerfil = view.findViewById(R.id.etFechaNacimientoPerfil);
-        EditText etSexoPerfil = view.findViewById(R.id.etSexoPerfil);
+        TextView etNombrePerfil = view.findViewById(R.id.etNombrePerfil);
+        TextView etApellidosPerfil = view.findViewById(R.id.etApellidosPerfil);
+        TextView etCorreoPerfil = view.findViewById(R.id.etCorreoPerfil);
+        TextView etPasswordPerfil = view.findViewById(R.id.etPasswordPerfil);
+        TextView etFechaNacimientoPerfil = view.findViewById(R.id.etFechaNacimientoPerfil);
+        TextView etSexoPerfil = view.findViewById(R.id.etSexoPerfil);
+
+        Log.d("uses", "onCreateView: Fields exists");
+
+        TextView[] profileInformation = {
+                etNombrePerfil, etApellidosPerfil,
+                etCorreoPerfil, etPasswordPerfil,
+                etFechaNacimientoPerfil, etSexoPerfil
+        };
+
 
         // Debug for current user
         Log.d("uses", "onCreateView: Current user: " + UserSingleton.getCurrentUser());
 
         // Obtén una referencia al EditText que contiene la contraseña
-        EditText etContraseña = view.findViewById(R.id.etPasswordPerfil);
+        TextView etContraseña = view.findViewById(R.id.etPasswordPerfil);
         Button changePass = view.findViewById(R.id.closeSession);
         Log.d("uses", "onCreateView: Close session: " + changePass);
 
         // Register presenter
         ChangePassword presenter = new ChangePassword(this);
-
+        presenter.showProfileInformation(profileInformation);
         changePass.setOnClickListener(v -> presenter.logout());
 
 

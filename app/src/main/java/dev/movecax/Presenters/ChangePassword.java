@@ -2,6 +2,8 @@ package dev.movecax.Presenters;
 
 import android.content.Intent;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import dev.movecax.Fragment.FourthFragment;
 import dev.movecax.models.User;
@@ -20,6 +22,18 @@ public class ChangePassword implements UserModelListener.LogoutListener{
         User currentUser = UserSingleton.getCurrentUser();
         Log.d("uses", "logout: Current user: " + currentUser);
         currentUser.logout(this);
+    }
+
+    public void showProfileInformation(TextView[] profileInformation) {
+
+        User currentUser = UserSingleton.getCurrentUser();
+
+        profileInformation[0].setText(currentUser.getNames());
+        profileInformation[1].setText(currentUser.getLastnames());
+        profileInformation[2].setText(currentUser.getEmail());
+        profileInformation[3].setText("********");
+        profileInformation[4].setText(currentUser.getDateBorn().toString());
+        profileInformation[5].setText(String.valueOf(currentUser.getSex()));
     }
 
     @Override
