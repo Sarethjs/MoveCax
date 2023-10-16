@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="map_height">550dp</dimen>
+    <dimen name="map_height">700dp</dimen>
     <dimen name="map_translation_y">20dp</dimen> <!-- Define la cantidad de traducción vertical aquí -->
 </resources>
 

@@ -14,7 +14,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import dev.movecax.R;
 
-public class ExplorarFragment extends SupportMapFragment {
+public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
+
+    private GoogleMap mGoogleMap;
 
     public ExplorarFragment() {
         // Constructor vacío requerido
@@ -26,24 +28,23 @@ public class ExplorarFragment extends SupportMapFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_first, container, false);
 
-        // Ajusta las dimensiones del mapa
-        int mapHeight = getResources().getDimensionPixelSize(R.dimen.map_height); // Define la altura deseada en recursos
-        rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mapHeight));
-
-        // Configura el mapa y realiza las acciones necesarias
-        getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                // Configura el mapa, agrega marcadores u otras acciones específicas
-                LatLng location = new LatLng(37.7749, -122.4194); // Ubicación de San Francisco, por ejemplo.
-                googleMap.addMarker(new MarkerOptions().position(location).title("San Francisco"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
-            }
-        });
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapContainer);
+        mapFragment.getMapAsync(this);
 
         return rootView;
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+
+        // Configura el mapa, agrega marcadores u otras acciones específicas
+        LatLng location = new LatLng(37.7749, -122.4194); // Ubicación de San Francisco, por ejemplo.
+        googleMap.addMarker(new MarkerOptions().position(location).title("San Francisco"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
+    }
 }
+
 
