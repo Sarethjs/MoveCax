@@ -10,17 +10,17 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import dev.movecax.Fragment.FirstFragment;
-import dev.movecax.Fragment.FourthFragment;
-import dev.movecax.Fragment.SecondFragment;
-import dev.movecax.Fragment.ThirdFragment;
+import dev.movecax.Fragment.ExplorarFragment;
+import dev.movecax.Fragment.PerfilFragment;
+import dev.movecax.Fragment.FavoritoFragment;
+import dev.movecax.Fragment.HistorialFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirstFragment firstFragment = new FirstFragment();
-    SecondFragment secondFragment = new SecondFragment();
-    ThirdFragment thirdFragment = new ThirdFragment();
-    FourthFragment fourthFragment = new FourthFragment();
+    ExplorarFragment explorarFragment = new ExplorarFragment();
+    FavoritoFragment favoritoFragment = new FavoritoFragment();
+    HistorialFragment historialFragment = new HistorialFragment();
+    PerfilFragment perfilFragment = new PerfilFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        loadFragment(firstFragment);
+        loadFragment(explorarFragment);
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -38,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             int itemId = item.getItemId();
             if (itemId == R.id.firstFragment) {
-                loadFragment(firstFragment);
+                loadFragment(explorarFragment);
                 return true;
             } else if (itemId == R.id.secondFragment) {
-                loadFragment(secondFragment);
+                loadFragment(favoritoFragment);
                 return true;
             } else if (itemId == R.id.thirdFragment) {
-                loadFragment(thirdFragment);
+                loadFragment(historialFragment);
                 return true;
             }
             else if (itemId == R.id.fourthFragment) {
-                loadFragment(fourthFragment);
+                loadFragment(perfilFragment);
                 return true;
             }
             return false;

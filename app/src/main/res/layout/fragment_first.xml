@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FirstFragment">
+    tools:context=".Fragment.ExplorarFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -25,16 +25,23 @@
             app:tint="@color/black" />
 
 
-            <!-- Barra de búsqueda -->
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                style="@style/SearchViewStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|top"
-                app:iconifiedByDefault="false"
-                app:queryHint="¿A dónde quieres llegar ?" />
+        <!-- Barra de búsqueda -->
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            style="@style/SearchViewStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            app:iconifiedByDefault="false"
+            app:queryHint="¿A dónde quieres llegar ?" />
 
     </LinearLayout>
 
+    <FrameLayout
+        android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="553dp"
+        android:layout_gravity="center" />
+
 </FrameLayout>
+

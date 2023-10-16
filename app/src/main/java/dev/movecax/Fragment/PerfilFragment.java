@@ -14,17 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputLayout;
-
-import org.w3c.dom.Text;
-
 import dev.movecax.Presenters.ChangePassword;
 import dev.movecax.Presenters.contracts.LogoutUserContract;
 import dev.movecax.R;
-import dev.movecax.models.User;
 import dev.movecax.singleton.UserSingleton;
 
-public class FourthFragment extends Fragment implements LogoutUserContract {
+public class PerfilFragment extends Fragment implements LogoutUserContract {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -32,12 +27,12 @@ public class FourthFragment extends Fragment implements LogoutUserContract {
     private String mParam1;
     private String mParam2;
 
-    public FourthFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
 
-    public static FourthFragment newInstance(String param1, String param2) {
-        FourthFragment fragment = new FourthFragment();
+    public static PerfilFragment newInstance(String param1, String param2) {
+        PerfilFragment fragment = new PerfilFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

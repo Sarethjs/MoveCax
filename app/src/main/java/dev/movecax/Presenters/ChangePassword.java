@@ -2,19 +2,18 @@ package dev.movecax.Presenters;
 
 import android.content.Intent;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import dev.movecax.Fragment.FourthFragment;
+import dev.movecax.Fragment.PerfilFragment;
 import dev.movecax.models.User;
 import dev.movecax.singleton.UserSingleton;
 import dev.movecax.views.LoginUserActivity;
 
 public class ChangePassword implements UserModelListener.LogoutListener{
 
-    private final FourthFragment view;
+    private final PerfilFragment view;
 
-    public ChangePassword(FourthFragment view) {
+    public ChangePassword(PerfilFragment view) {
         this.view = view;
     }
 
