@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="620dp"
         android:layout_gravity="center"
-        app:cameraZoom="10"
+        app:cameraZoom="20"
         map:uiRotateGestures="true"
         map:uiZoomControls="true"/>
 
