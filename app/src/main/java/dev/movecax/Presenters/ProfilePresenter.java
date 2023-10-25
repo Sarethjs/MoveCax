@@ -28,13 +28,15 @@ public class ProfilePresenter implements UserModelListener.LogoutListener,
 
     public void changePassword(String actualPassword, String newPassword, String confirmPassword){
 
-        if (newPassword.equals(confirmPassword)){
+        if (!newPassword.equals(confirmPassword)){
             onFailure("Las contraseñas no coinciden");
             return;
         }
-
-        PasswordChangeRequest request = new PasswordChangeRequest(actualPassword, newPassword);
         User currentUser = UserSingleton.getCurrentUser();
+        PasswordChangeRequest request = new PasswordChangeRequest(
+                currentUser.getEmail(),
+                actualPassword,
+                newPassword);
         currentUser.changePassword(this, request);
     }
 
