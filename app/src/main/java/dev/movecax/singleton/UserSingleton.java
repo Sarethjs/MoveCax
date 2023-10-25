@@ -14,6 +14,10 @@ public class UserSingleton {
         Log.d("uses", "setCurrentUser: User singleton: " + user);
     }
 
+    public static void destroySession() {
+        currentUser = null;
+    }
+
     public static User getCurrentUser(){
         return currentUser;
     }

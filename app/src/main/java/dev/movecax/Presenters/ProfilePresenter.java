@@ -5,15 +5,17 @@ import android.util.Log;
 import android.widget.TextView;
 
 import dev.movecax.Fragment.PerfilFragment;
+import dev.movecax.models.PasswordChangeRequest;
 import dev.movecax.models.User;
 import dev.movecax.singleton.UserSingleton;
 import dev.movecax.views.LoginUserActivity;
 
-public class ChangePassword implements UserModelListener.LogoutListener{
+public class ProfilePresenter implements UserModelListener.LogoutListener,
+    UserModelListener.ChangePassListener{
 
     private final PerfilFragment view;
 
-    public ChangePassword(PerfilFragment view) {
+    public ProfilePresenter(PerfilFragment view) {
         this.view = view;
     }
 
@@ -22,6 +24,20 @@ public class ChangePassword implements UserModelListener.LogoutListener{
         Log.d("uses", "logout: Current user: " + currentUser);
         currentUser.logout(this);
     }
+
+
+    public void changePassword(String actualPassword, String newPassword, String confirmPassword){
+
+        if (newPassword.equals(confirmPassword)){
+            onFailure("Las contraseñas no coinciden");
+            return;
+        }
+
+        PasswordChangeRequest request = new PasswordChangeRequest(actualPassword, newPassword);
+        User currentUser = UserSingleton.getCurrentUser();
+        currentUser.changePassword(this, request);
+    }
+
 
     public void showProfileInformation(TextView[] profileInformation) {
 
@@ -33,6 +49,16 @@ public class ChangePassword implements UserModelListener.LogoutListener{
         profileInformation[3].setText("********");
         profileInformation[4].setText(currentUser.getDateBorn().toString());
         profileInformation[5].setText(String.valueOf(currentUser.getSex()));
+    }
+
+    @Override
+    public void passwordChanged(String message) {
+        view.showMessage(message);
+    }
+
+    @Override
+    public void passwordNotChanged(String message) {
+        onFailure(message);
     }
 
     @Override

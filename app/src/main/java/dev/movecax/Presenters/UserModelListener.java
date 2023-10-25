@@ -13,5 +13,10 @@ public interface UserModelListener {
         void onFailure(String message);
     }
 
+    interface ChangePassListener {
+        void  passwordChanged(String message);
+        void passwordNotChanged(String message);
+    }
+
 
 }
