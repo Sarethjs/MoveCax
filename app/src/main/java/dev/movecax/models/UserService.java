@@ -28,4 +28,7 @@ public interface UserService {
 
     @POST("users/logout")
     Call<Void> logout(@Body User user);
+
+    @POST("users/password")
+    Call<User> changePassword(@Body PasswordChangeRequest request);
 }

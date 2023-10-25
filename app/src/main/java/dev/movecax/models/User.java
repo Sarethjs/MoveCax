@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NonNls;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -143,7 +145,7 @@ public class User {
                                    @NonNull Response<Void> response) {
                 if (response.isSuccessful()) {
                     // Remove Singleton
-                    UserSingleton.setCurrentUser(null);
+                    UserSingleton.destroySession(); // Fix this
                     listener.userLogout("Good bye, I'll waiting for you");
                 }
                 else {
@@ -156,6 +158,35 @@ public class User {
 
             }
         });
+    }
+
+    public void changePassword(UserModelListener.ChangePassListener listener,
+                               PasswordChangeRequest changeRequest) {
+
+        UserService service = UserService.retrofit.create(UserService.class);
+        Call<User> call = service.changePassword(changeRequest);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call,
+                                   @NonNull Response<User> response) {
+                Log.d("sar_pass", "onResponse: " + response);
+                if (response.isSuccessful()) {
+                    UserSingleton.setCurrentUser(response.body());
+                    listener.passwordChanged("Contraseña actualizada");
+                }
+                else {
+                    listener.passwordNotChanged("Error de servidor");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call,
+                                  @NonNull Throwable t) {
+                listener.passwordNotChanged("Pass not: " + t);
+            }
+        });
+
     }
 
 

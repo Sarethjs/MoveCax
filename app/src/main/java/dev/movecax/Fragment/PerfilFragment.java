@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import dev.movecax.Presenters.ChangePassword;
+import dev.movecax.Presenters.ProfilePresenter;
 import dev.movecax.Presenters.contracts.LogoutUserContract;
 import dev.movecax.R;
 import dev.movecax.singleton.UserSingleton;
@@ -81,7 +81,7 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
         Log.d("uses", "onCreateView: Close session: " + changePass);
 
         // Register presenter
-        ChangePassword presenter = new ChangePassword(this);
+        ProfilePresenter presenter = new ProfilePresenter(this);
         presenter.showProfileInformation(profileInformation);
         changePass.setOnClickListener(v -> presenter.logout());
 
@@ -159,6 +159,10 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
 
     @Override
     public void error(String message) {
+        Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(String message) {
         Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
