@@ -9,12 +9,14 @@ import com.google.gson.JsonObject;
 
 import org.jetbrains.annotations.NonNls;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.Presenters.UserModelListener;
 import dev.movecax.singleton.UserSingleton;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,7 +88,15 @@ public class User {
 
                     listener.userLogged("Login exitoso");
                 } else{
-                    listener.userNotLogged("User not logged: " + response.errorBody());
+                    try (ResponseBody responseBody = response.errorBody()) {
+                        if (responseBody != null) {
+                            String errorMessage = responseBody.string();
+                            listener.userNotLogged(errorMessage);
+                        }
+
+                    } catch (IOException ioException) {
+                        listener.userNotLogged("Error desconocido ");
+                    }
                     Log.d("uses", "Response: " + response.errorBody());
                 }
             }

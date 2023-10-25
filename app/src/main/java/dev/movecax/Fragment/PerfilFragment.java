@@ -25,6 +25,7 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
+    private ProfilePresenter presenter;
     private String mParam2;
 
     public PerfilFragment() {
@@ -81,7 +82,7 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
         Log.d("uses", "onCreateView: Close session: " + changePass);
 
         // Register presenter
-        ProfilePresenter presenter = new ProfilePresenter(this);
+        presenter = new ProfilePresenter(this);
         presenter.showProfileInformation(profileInformation);
         changePass.setOnClickListener(v -> presenter.logout());
 
@@ -133,8 +134,7 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
                 String newPassword = etNewPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
 
-                // Realiza la lógica para cambiar la contraseña aquí
-                // Puedes validar, actualizar la contraseña en la base de datos, etc.
+                presenter.changePassword(currentPassword, newPassword, confirmPassword);
                 
                 // Cierra el diálogo
                 dialog.dismiss();
