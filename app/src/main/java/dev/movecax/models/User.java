@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.Presenters.UserModelListener;
+import dev.movecax.models.helpers.ErrorFormatter;
 import dev.movecax.singleton.UserSingleton;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,7 +55,8 @@ public class User {
                 if (response.isSuccessful()) {
                     presenter.showMessage("Usuario creado");
                 } else {
-                    presenter.showMessage("Error: " + response.errorBody());
+                    String errMsg = ErrorFormatter.parseError(response.errorBody());
+                    presenter.showMessage(errMsg);
                     Log.d("uses", "onResponse: " + response);
                 }
             }
@@ -88,16 +90,8 @@ public class User {
 
                     listener.userLogged("Login exitoso");
                 } else{
-                    try (ResponseBody responseBody = response.errorBody()) {
-                        if (responseBody != null) {
-                            String errorMessage = responseBody.string();
-                            listener.userNotLogged(errorMessage);
-                        }
-
-                    } catch (IOException ioException) {
-                        listener.userNotLogged("Error desconocido ");
-                    }
-                    Log.d("uses", "Response: " + response.errorBody());
+                    String error = ErrorFormatter.parseError(response.errorBody());
+                    listener.userNotLogged(error);
                 }
             }
 
@@ -186,7 +180,8 @@ public class User {
                     listener.passwordChanged("Contraseña actualizada");
                 }
                 else {
-                    listener.passwordNotChanged("Error de servidor");
+                    String error = ErrorFormatter.parseError(response.errorBody());
+                    listener.passwordNotChanged(error);
                 }
             }
 
