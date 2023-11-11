@@ -2,6 +2,7 @@ package dev.movecax.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,18 +21,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.DirectionsApi;
 
+import java.util.List;
+
+import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
+import dev.movecax.models.RouteManager;
+import dev.movecax.models.RouteRequest;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
+    private ExplorePresenter presenter;
+    private  LatLng currentLocation;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
 
-    public ExplorarFragment() {
-        // Constructor vacío requerido
-    }
+    public ExplorarFragment() {}
 
     public static ExplorarFragment newInstance() {
         return new ExplorarFragment();
@@ -49,6 +58,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         // Verificar y solicitar permisos de ubicación
         checkAndRequestLocationPermissions();
 
+        // Add presenter for this fragment
+        this.presenter = new ExplorePresenter(this);
         return rootView;
     }
 
@@ -64,15 +75,12 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             mGoogleMap.setMyLocationEnabled(true); // Setear la capa de ubicación habilitada
             mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
-
-            // Obtener la ubicación actual y centrar el mapa en ella
             obtenerUbicacionActual();
         }
     }
 
     private void checkAndRequestLocationPermissions() {
         if (!hasLocationPermission()) {
-            // Solicitar permisos de ubicación
             requestLocationPermission();
         }
     }
@@ -95,16 +103,41 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                     if (location != null) {
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
-                        LatLng currentLocation = new LatLng(latitude, longitude);
+                        this.currentLocation = new LatLng(latitude, longitude);
                         mGoogleMap.addMarker(new MarkerOptions().position(currentLocation).title("Mi ubicación"));
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
+
+                        LatLng origin = this.getCurrentLocation();
+                        LatLng dest = new LatLng(-7, -7);
+
+                        RouteRequest request = new RouteRequest(
+                                origin.latitude, origin.longitude,
+                                dest.latitude, dest.longitude
+                        );
+
+                        RouteManager manager = new RouteManager();
+                        manager.getBestRoute(this.presenter, request);
                     }
                 });
             } catch (SecurityException e) {
                 e.printStackTrace();
-                // Manejar la excepción de seguridad aquí
-                // Puedes mostrar un mensaje al usuario o tomar otras acciones necesarias.
             }
         }
+    }
+
+    public GoogleMap getmGoogleMap() {
+        return mGoogleMap;
+    }
+
+    public void setmGoogleMap(GoogleMap mGoogleMap) {
+        this.mGoogleMap = mGoogleMap;
+    }
+
+    public LatLng getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LatLng currentLocation) {
+        this.currentLocation = currentLocation;
     }
 }
