@@ -3,11 +3,14 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.appcompat.widget.SearchView;
+
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -15,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.airbnb.lottie.L;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +27,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+
+import dev.movecax.Presenters.ExplorePresenter;
 
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.TypeFilter;
@@ -43,6 +50,8 @@ import dev.movecax.R;
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
+    private ExplorePresenter presenter;
+    private  LatLng currentLocation;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private SearchView searchView;
@@ -50,9 +59,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     private AutocompleteSupportFragment autocompleteFragment;
     private Marker selectedPlaceMarker;
 
-    public ExplorarFragment() {
-        // Constructor vacío requerido
-    }
+    public ExplorarFragment() {}
 
     public static ExplorarFragment newInstance() {
         return new ExplorarFragment();
@@ -67,6 +74,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
+        // Add presenter for this fragment
+        this.presenter = new ExplorePresenter(this);
         // Inicializar la API de Places
         Places.initialize(requireContext(), "AIzaSyCYHrWYHo23QvaemjicBIQkBoI1_WUW_C4");
 
@@ -135,9 +144,12 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                     && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            mGoogleMap.setMyLocationEnabled(true);
-            mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-            obtenerUbicacionActual();
+
+            this.mGoogleMap.setMyLocationEnabled(true);
+            this.mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+
+            this.checkAndRequestLocationPermissions();
+            getLocation();
         }
     }
 
@@ -157,22 +169,59 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
-    private void obtenerUbicacionActual() {
-        if (hasLocationPermission()) {
+    private void getLocation() {
+        if (this.hasLocationPermission()) {
             try {
-                fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                // Get user location
+                this.fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
                     if (location != null) {
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        LatLng currentLocation = new LatLng(latitude, longitude);
-                        mGoogleMap.addMarker(new MarkerOptions().position(currentLocation).title("Mi ubicación"));
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
+                        this.setMarkerOnMap(location);
+                        this.userLocationChanged(location);
+                    } else {
+                        this.showError("No se pudo obtener tu ubicación");
                     }
                 });
             } catch (SecurityException e) {
-                e.printStackTrace();
+                this.showError("No se pudo obtener tu ubicación");
             }
         }
+    }
+
+
+    public void showError(String error) {
+        Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setMarkerOnMap(Location location) {
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        final LatLng userLocation = new LatLng(lat, lon);
+
+        this.mGoogleMap.addMarker(new MarkerOptions()
+                .position(userLocation)
+                .title("Mi ubicación")
+        );
+        this.mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
+    }
+
+    private void userLocationChanged(Location userLocation) {
+        this.presenter.makeRequest(userLocation);
+    }
+
+    public GoogleMap getmGoogleMap() {
+        return mGoogleMap;
+    }
+
+    public void setmGoogleMap(GoogleMap mGoogleMap) {
+        this.mGoogleMap = mGoogleMap;
+    }
+
+    public LatLng getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LatLng currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     private void buscarUbicacion(String query) {
