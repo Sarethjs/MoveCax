@@ -6,6 +6,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -197,6 +198,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
         final LatLng userLocation = new LatLng(lat, lon);
+
 
         this.mGoogleMap.addMarker(new MarkerOptions()
                 .position(userLocation)

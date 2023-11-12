@@ -13,11 +13,12 @@
         android:id="@+id/mapContainer"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
+        android:layout_height="650dp"
         android:layout_gravity="center"
         app:cameraZoom="20"
         map:uiRotateGestures="true"
-        map:uiZoomControls="true"/>
+        map:uiZoomControls="true"
+        android:layout_marginTop="15dp"/>
 
     <!-- Fragmento de autocompletado -->
 

@@ -145,8 +145,9 @@
                 android:background="@drawable/rounded_background"
                 android:drawableStart="@drawable/ic_action_cumple"
                 android:drawablePadding="10dp"
-                android:hint="Fecha de Nacimiento (dd/mm/yyyy)"
-                android:inputType="date" />
+                android:hint="Fecha de Nacimiento (yyyy/mm/dd)"
+                android:inputType="date"
+                android:editable="false"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

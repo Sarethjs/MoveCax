@@ -1,8 +1,15 @@
 package dev.movecax.Fragment;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +18,27 @@ import android.widget.Button;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 import dev.movecax.Presenters.ProfilePresenter;
 import dev.movecax.Presenters.contracts.LogoutUserContract;
 import dev.movecax.R;
 import dev.movecax.singleton.UserSingleton;
 
+import dev.movecax.Base64.ImageUtil;
+
 public class PerfilFragment extends Fragment implements LogoutUserContract {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private ImageButton btnCambiarFotoPerfil;
 
     private String mParam1;
     private ProfilePresenter presenter;
@@ -110,6 +126,16 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
             }
         });
 
+        btnCambiarFotoPerfil = view.findViewById(R.id.btnCambiarFotoPerfil);
+
+        btnCambiarFotoPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seleccionarFotoDePerfil();
+            }
+        });
+
+
 
         return view;
     }
@@ -135,7 +161,7 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
                 String confirmPassword = etConfirmPassword.getText().toString();
 
                 presenter.changePassword(currentPassword, newPassword, confirmPassword);
-                
+
                 // Cierra el diálogo
                 dialog.dismiss();
             }
@@ -164,5 +190,36 @@ public class PerfilFragment extends Fragment implements LogoutUserContract {
 
     public void showMessage(String message) {
         Toast.makeText(this.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void seleccionarFotoDePerfil() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            // La imagen seleccionada está en data.getData()
+            Uri selectedImageUri = data.getData();
+
+            try {
+                // Convierte la Uri a cadena Base64 utilizando ImageUtil
+                InputStream inputStream = requireActivity().getContentResolver().openInputStream(selectedImageUri);
+                String base64Image = ImageUtil.uriToBase64(inputStream);
+
+                // Puedes almacenar o utilizar la cadena Base64 según tus necesidades
+                Log.d("Base64Image", "onActivityResult: " + base64Image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Muestra la imagen en el ImageButton
+            btnCambiarFotoPerfil.setImageURI(selectedImageUri);
+        } else {
+            Toast.makeText(getContext(), "No se seleccionó ninguna imagen", Toast.LENGTH_SHORT).show();
+        }
     }
 }
