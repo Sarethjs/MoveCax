@@ -12,4 +12,20 @@ public class RouteRequest {
         this.latd = latd;
         this.lond = lond;
     }
+
+    public double getLato() {
+        return lato;
+    }
+
+    public double getLono() {
+        return lono;
+    }
+
+    public double getLatd() {
+        return latd;
+    }
+
+    public double getLond() {
+        return lond;
+    }
 }

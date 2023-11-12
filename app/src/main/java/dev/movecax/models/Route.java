@@ -12,9 +12,9 @@ public class Route {
     private  final String routeName;
     private List<LatLng> points;
 
-    public Route(String routeName) {
+    public Route(String routeName, List<LatLng> points) {
         this.routeName = routeName;
-        this.points = new ArrayList<>();
+        this.points = points;
     }
 
     public void addLocation(LatLng location) {

@@ -2,17 +2,18 @@ package dev.movecax.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.L;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -21,16 +22,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.DirectionsApi;
-
-import java.util.List;
 
 import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
-import dev.movecax.models.RouteManager;
-import dev.movecax.models.RouteRequest;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
@@ -55,9 +49,6 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        // Verificar y solicitar permisos de ubicación
-        checkAndRequestLocationPermissions();
-
         // Add presenter for this fragment
         this.presenter = new ExplorePresenter(this);
         return rootView;
@@ -72,10 +63,18 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            mGoogleMap.setMyLocationEnabled(true); // Setear la capa de ubicación habilitada
-            mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+            this.mGoogleMap.setMyLocationEnabled(true);
+            this.mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
-            obtenerUbicacionActual();
+            this.checkAndRequestLocationPermissions();
+            getLocation();
+
+            /*
+
+            Log.d("draw_routes", "onMapReady: ");
+            // this.presenter.drawCustomRoute();
+
+             */
         }
     }
 
@@ -95,34 +94,42 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
     }
 
-    private void obtenerUbicacionActual() {
-        if (hasLocationPermission()) {
+    private void getLocation() {
+        if (this.hasLocationPermission()) {
             try {
-                // Obtener la ubicación actual
-                fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
+                // Get user location
+                this.fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
                     if (location != null) {
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        this.currentLocation = new LatLng(latitude, longitude);
-                        mGoogleMap.addMarker(new MarkerOptions().position(currentLocation).title("Mi ubicación"));
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
-
-                        LatLng origin = this.getCurrentLocation();
-                        LatLng dest = new LatLng(-7, -7);
-
-                        RouteRequest request = new RouteRequest(
-                                origin.latitude, origin.longitude,
-                                dest.latitude, dest.longitude
-                        );
-
-                        RouteManager manager = new RouteManager();
-                        manager.getBestRoute(this.presenter, request);
+                        this.setMarkerOnMap(location);
+                        this.userLocationChanged(location);
+                    } else {
+                        this.showError("No se pudo obtener tu ubicación");
                     }
                 });
             } catch (SecurityException e) {
-                e.printStackTrace();
+                this.showError("No se pudo obtener tu ubicación");
             }
         }
+    }
+
+    public void showError(String error) {
+        Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setMarkerOnMap(Location location) {
+        double lat = location.getLatitude();
+        double lon = location.getLongitude();
+        final LatLng userLocation = new LatLng(lat, lon);
+
+        this.mGoogleMap.addMarker(new MarkerOptions()
+                .position(userLocation)
+                .title("Mi ubicación")
+        );
+        this.mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 16));
+    }
+
+    private void userLocationChanged(Location userLocation) {
+        this.presenter.makeRequest(userLocation);
     }
 
     public GoogleMap getmGoogleMap() {
