@@ -46,17 +46,20 @@ public class ExplorePresenter implements RouteManagerListener {
     public void routeObtained(String msg, Route route) {
         Log.d("draw_routes", "routeObtained: Route obtained");
         this.drawCustomRoute(route);
+        this.view.showMessage("Mejor ruta encontrada");
     }
 
     @Override
     public void routNotObtained(String err) {
-
+        this.view.showError(err);
     }
 
-    public void makeRequest(Location userLocation) {
+    public void makeRequest(Location userLocation, Location destination) {
+
+        this.view.showMessage("Calculando mejor ruta");
 
         LatLng origin = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        LatLng dest = new LatLng(-7, -7);
+        LatLng dest = new LatLng(-destination.getLatitude(), destination.getLongitude());
 
         RouteRequest request = new RouteRequest(
                 origin.latitude, origin.longitude,

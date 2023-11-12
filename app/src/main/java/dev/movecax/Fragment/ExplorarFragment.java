@@ -51,7 +51,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private ExplorePresenter presenter;
-    private  LatLng currentLocation;
+    private Location currentLocation;
+    private Location destination;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private SearchView searchView;
@@ -192,6 +193,10 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         Toast.makeText(this.getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
+    public void showMessage(String msg) {
+        Toast.makeText(this.getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
     private void setMarkerOnMap(Location location) {
         double lat = location.getLatitude();
         double lon = location.getLongitude();
@@ -205,7 +210,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void userLocationChanged(Location userLocation) {
-        this.presenter.makeRequest(userLocation);
+        // this.presenter.makeRequest(userLocation);
+        this.currentLocation = userLocation;
     }
 
     public GoogleMap getmGoogleMap() {
@@ -214,14 +220,6 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
     public void setmGoogleMap(GoogleMap mGoogleMap) {
         this.mGoogleMap = mGoogleMap;
-    }
-
-    public LatLng getCurrentLocation() {
-        return currentLocation;
-    }
-
-    public void setCurrentLocation(LatLng currentLocation) {
-        this.currentLocation = currentLocation;
     }
 
     private void buscarUbicacion(String query) {
@@ -234,12 +232,20 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                 double longitude = address.getLongitude();
                 LatLng location = new LatLng(latitude, longitude);
 
-                mGoogleMap.clear(); // Limpiar marcadores previos
+                mGoogleMap.clear();
                 mGoogleMap.addMarker(new MarkerOptions().position(location).title(query));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+
+                //  Make request
+                Location dest = new Location("None");
+                dest.setLatitude(latitude);
+                dest.setLongitude(longitude);
+
+                this.presenter.makeRequest(this.currentLocation, dest);
+                // this.userLocationChanged(location);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            this.showError("Error: " + e.getMessage());
         }
     }
 }
