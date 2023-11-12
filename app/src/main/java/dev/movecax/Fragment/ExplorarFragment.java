@@ -208,7 +208,6 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void userLocationChanged(Location userLocation) {
-        // this.presenter.makeRequest(userLocation);
         this.currentLocation = userLocation;
     }
 
