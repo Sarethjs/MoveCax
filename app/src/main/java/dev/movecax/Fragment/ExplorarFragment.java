@@ -1,4 +1,5 @@
 package dev.movecax.Fragment;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -8,17 +9,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.appcompat.widget.SearchView;
-
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.airbnb.lottie.L;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,25 +24,21 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-
-import dev.movecax.Presenters.ExplorePresenter;
-
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
@@ -52,7 +46,6 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mGoogleMap;
     private ExplorePresenter presenter;
     private Location currentLocation;
-    private Location destination;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private SearchView searchView;
@@ -122,11 +115,14 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                 mGoogleMap.clear();
                 selectedPlaceMarker = mGoogleMap.addMarker(new MarkerOptions().position(location).title(place.getName()));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+
+                // Make request
+                presenter.makeRequest(currentLocation, location);
             }
 
             @Override
             public void onError(com.google.android.gms.common.api.Status status) {
-                Toast.makeText(requireContext(), "Error: " + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+                showError("Error: " + status.getStatusMessage());
             }
         });
 
@@ -150,7 +146,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             this.mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
             this.checkAndRequestLocationPermissions();
-            getLocation();
+            this.getLocation();
         }
     }
 
@@ -218,12 +214,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         return mGoogleMap;
     }
 
-    public void setmGoogleMap(GoogleMap mGoogleMap) {
-        this.mGoogleMap = mGoogleMap;
-    }
-
     private void buscarUbicacion(String query) {
-        Geocoder geocoder = new Geocoder(requireContext());
+        Geocoder geocoder = new Geocoder(this.requireContext());
         try {
             List<Address> addresses = geocoder.getFromLocationName(query, 1);
             if (!addresses.isEmpty()) {
@@ -231,18 +223,9 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                 double latitude = address.getLatitude();
                 double longitude = address.getLongitude();
                 LatLng location = new LatLng(latitude, longitude);
-
                 mGoogleMap.clear();
                 mGoogleMap.addMarker(new MarkerOptions().position(location).title(query));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
-
-                //  Make request
-                Location dest = new Location("None");
-                dest.setLatitude(latitude);
-                dest.setLongitude(longitude);
-
-                this.presenter.makeRequest(this.currentLocation, dest);
-                // this.userLocationChanged(location);
             }
         } catch (IOException e) {
             this.showError("Error: " + e.getMessage());

@@ -54,16 +54,15 @@ public class ExplorePresenter implements RouteManagerListener {
         this.view.showError(err);
     }
 
-    public void makeRequest(Location userLocation, Location destination) {
+    public void makeRequest(Location userLocation, LatLng destination) {
 
         this.view.showMessage("Calculando mejor ruta");
 
         LatLng origin = new LatLng(userLocation.getLatitude(), userLocation.getLongitude());
-        LatLng dest = new LatLng(-destination.getLatitude(), destination.getLongitude());
 
         RouteRequest request = new RouteRequest(
                 origin.latitude, origin.longitude,
-                dest.latitude, dest.longitude
+                destination.latitude, destination.longitude
         );
 
         RouteManager manager = new RouteManager();
