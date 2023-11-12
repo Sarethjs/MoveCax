@@ -2,12 +2,21 @@ package dev.movecax.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.R;
@@ -37,6 +46,20 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
         etSex = findViewById(R.id.etSexo);
 
         presenter = new RegistroUserPresenter(this);
+
+        etDateBorn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
+        etSex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGenderSelectionDialog();
+            }
+        });
 
         // Functionality for buttons
         Button btnRegister = findViewById(R.id.btnRegistrar);
@@ -71,4 +94,52 @@ public class RegistroUserActivity extends AppCompatActivity implements RegistroU
         presenter.createUser(names, lastnames, email, password, dateBorn, sex);
     }
 
+    private void showDatePickerDialog() {
+        // Obtener la fecha actual
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Crear un DatePickerDialog y establecer un listener para la selección de fecha
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int selectedYear,
+                                          int monthOfYear, int dayOfMonth) {
+                        // Formatear la fecha seleccionada
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        calendar.set(selectedYear, monthOfYear, dayOfMonth);
+                        String formattedDate = dateFormat.format(calendar.getTime());
+
+                        // Actualizar el campo de texto con la fecha seleccionada
+                        etDateBorn.setText(formattedDate);
+                    }
+                }, year, month, day);
+
+        datePickerDialog.getDatePicker().init(year, month, day, null);
+
+        // Mostrar el diálogo
+        datePickerDialog.show();
+    }
+
+    private void showGenderSelectionDialog() {
+
+        final String[] genderOptions = {"M", "F"};
+
+        // Configura el AlertDialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Seleccione el género")
+                .setItems(genderOptions, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Handle the selection
+                        String selectedGender = genderOptions[which];
+                        etSex.setText(selectedGender);
+                    }
+                });
+
+        // Muestra el AlertDialog
+        builder.show();
+    }
 }
