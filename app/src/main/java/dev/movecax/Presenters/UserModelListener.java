@@ -18,5 +18,8 @@ public interface UserModelListener {
         void passwordNotChanged(String message);
     }
 
-
+    interface RegisterListener {
+        void userCreated(String msg);
+        void userNotCreated(String err);
+    }
 }

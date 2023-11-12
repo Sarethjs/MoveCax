@@ -1,15 +1,19 @@
 package dev.movecax.Presenters;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import dev.movecax.MainActivity;
 import dev.movecax.models.User;
 import dev.movecax.views.RegistroUserActivity;
 
-public class RegistroUserPresenter implements UserModelListener.LoginListener{
+public class RegistroUserPresenter implements UserModelListener.LoginListener,
+    UserModelListener.RegisterListener{
     private RegistroUserActivity view;
     private User user;
 
@@ -48,10 +52,6 @@ public class RegistroUserPresenter implements UserModelListener.LoginListener{
         this.view.showMessage("Error al realizar la petición");
     }
 
-    public void showMessage(String msg) {
-        view.showMessage(msg);
-    }
-
     public void setView(RegistroUserActivity view) {
         this.view = view;
     }
@@ -60,6 +60,20 @@ public class RegistroUserPresenter implements UserModelListener.LoginListener{
         this.user = user;
     }
 
+    @Override
+    public void userCreated(String msg) {
+        Toast.makeText(this.view.getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+
+        // Redirect to main page
+        Intent intent = new Intent(this.view, MainActivity.class);
+        this.view.startActivity(intent);
+        this.view.finish();
+    }
+
+    @Override
+    public void userNotCreated(String err) {
+        Toast.makeText(this.view.getApplicationContext(), err, Toast.LENGTH_SHORT).show();
+    }
 }
 
 

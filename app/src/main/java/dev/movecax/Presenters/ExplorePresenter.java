@@ -2,9 +2,7 @@ package dev.movecax.Presenters;
 
 import android.graphics.Color;
 import android.location.Location;
-import android.util.Log;
 
-import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -22,29 +20,15 @@ public class ExplorePresenter implements RouteManagerListener {
     }
 
     public void drawCustomRoute(Route route) {
-        Log.d("draw_routes", "drawCustomRoute: Points:");
-
         PolylineOptions polylineOptions = new PolylineOptions();
         polylineOptions.width(12);
         polylineOptions.color(Color.BLUE);
-
-        // polylineOptions.add(new LatLng(-7.1533782833407695, -78.51512705599512),
-        //         new LatLng(-7.157881,-78.508329));
-        //
-
-        polylineOptions.addAll(route.getLocations());
-        for (LatLng point:
-                route.getLocations()) {
-            Log.d("draw_routes", "drawCustomRoute: Point: " + point);
-        }
-
+        polylineOptions.addAll(route.getPoints());
         this.view.getmGoogleMap().addPolyline(polylineOptions);
-        Log.d("draw_routes", "drawCustomRoute: Polyline added ");
     }
 
     @Override
     public void routeObtained(String msg, Route route) {
-        Log.d("draw_routes", "routeObtained: Route obtained");
         this.drawCustomRoute(route);
         this.view.showMessage("Mejor ruta encontrada");
     }

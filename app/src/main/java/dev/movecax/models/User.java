@@ -1,23 +1,16 @@
 package dev.movecax.models;
 
 import android.util.Log;
-import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 
-import org.jetbrains.annotations.NonNls;
-
-import java.io.IOException;
 import java.util.Date;
-import java.util.UUID;
 
-import dev.movecax.Presenters.RegistroUserPresenter;
 import dev.movecax.Presenters.UserModelListener;
 import dev.movecax.models.helpers.ErrorFormatter;
 import dev.movecax.singleton.UserSingleton;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,7 +36,7 @@ public class User {
         this.dateBorn = DateBorn;
     }
 
-    public void createUser(RegistroUserPresenter presenter) {
+    public void createUser(UserModelListener.RegisterListener listener) {
         Log.d("uses", "Creating user");
 
         UserService userService = UserService.retrofit.create(UserService.class);
@@ -53,10 +46,13 @@ public class User {
             public void onResponse(@NonNull Call<User> call,
                                    @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
-                    presenter.showMessage("Usuario creado");
+                    listener.userCreated("Usuario registrado");
+
+                    // Create user Singleton
+                    UserSingleton.setCurrentUser((User) response.body());
                 } else {
                     String errMsg = ErrorFormatter.parseError(response.errorBody());
-                    presenter.showMessage(errMsg);
+                    listener.userNotCreated("Error: "+ errMsg);
                     Log.d("uses", "onResponse: " + response);
                 }
             }
@@ -64,13 +60,13 @@ public class User {
             @Override
             public void onFailure(@NonNull Call<User> call,
                                   @NonNull Throwable t) {
-                presenter.showMessage("Error fatal al intentar conectar con el servidor");
+                listener.userNotCreated("Error al conectarse con el servidor");
             }
         });
     }
 
 
-    public void findUser(UserModelListener.LoginListener listener) {
+    public void login(UserModelListener.LoginListener listener) {
 
         UserService service = UserService.retrofit.create(UserService.class);
         Call<User> call = service.getUser(this);
@@ -158,8 +154,9 @@ public class User {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<Void> call,
+                                  @NonNull Throwable t) {
+                listener.onFailure("No se pudo conectar al servidor");
             }
         });
     }

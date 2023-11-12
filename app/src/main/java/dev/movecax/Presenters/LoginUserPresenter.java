@@ -22,7 +22,7 @@ public class LoginUserPresenter implements UserModelListener.LoginListener{
         User user = new User();
         user.setEmail(email);
         user.setPassword(password);
-        user.findUser(this);
+        user.login(this);
 
     }
 
