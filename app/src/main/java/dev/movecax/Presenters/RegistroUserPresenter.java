@@ -1,12 +1,12 @@
 package dev.movecax.Presenters;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import dev.movecax.MainActivity;
 import dev.movecax.models.User;
@@ -25,14 +25,13 @@ public class RegistroUserPresenter implements UserModelListener.LoginListener,
     public void createUser(String names, String lastnames, String email, String password,
                            String dateBorn, char sex){
 
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date date = formatter.parse(dateBorn);
             this.user = new User(names, lastnames, email, password, date, sex);
             user.createUser(this);
         } catch (ParseException e) {
-            // We can show a custom error message
             this.view.showMessage("Ingrese una fecha en el formato correcto");
         }
     }
