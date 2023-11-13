@@ -33,13 +33,14 @@
         <!-- ImageView -->
         <ImageButton
             android:id="@+id/btnCambiarFotoPerfil"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@drawable/ic_action_perfil"
             android:layout_gravity="end|top"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="-70dp"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:background="@drawable/rounded_button"/>
 
         <LinearLayout
             android:id="@+id/logoutUser"
