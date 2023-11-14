@@ -15,22 +15,28 @@
         android:fontFamily="sans-serif-black"
         android:textColor="@color/purple_modified"
         android:textSize="40sp"
-        android:text="Favoritos" />
+        android:text="Novedades" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <com.airbnb.lottie.LottieAnimationView
 
-            android:layout_height="400dp"
             android:layout_width="400dp"
-            app:lottie_rawRes="@raw/desierto"
+            android:layout_height="400dp"
+            app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>/>
+            app:lottie_rawRes="@raw/desierto" />/>
+        <com.airbnb.lottie.LottieAnimationView
 
+            android:layout_width="400dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/comingsoon2" />/>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

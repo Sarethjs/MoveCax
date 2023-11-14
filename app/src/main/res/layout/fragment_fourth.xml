@@ -270,7 +270,14 @@
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="© 2023 MoveCax | Versión 1.0.0"
+        android:textColor="@color/quantum_grey"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:layout_margin="90dp"/>
 
 </FrameLayout>
 
