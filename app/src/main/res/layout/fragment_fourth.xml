@@ -33,13 +33,14 @@
         <!-- ImageView -->
         <ImageButton
             android:id="@+id/btnCambiarFotoPerfil"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:src="@drawable/ic_action_perfil"
             android:layout_gravity="end|top"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="-70dp"
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:background="@drawable/rounded_button"/>
 
         <LinearLayout
             android:id="@+id/logoutUser"
@@ -269,7 +270,14 @@
             android:layout_marginTop="5dp"/>
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="© 2023 MoveCax | Versión 1.0.0"
+        android:textColor="@color/quantum_grey"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:layout_margin="90dp"/>
 
 </FrameLayout>
 

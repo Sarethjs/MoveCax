@@ -147,7 +147,9 @@
                 android:drawablePadding="10dp"
                 android:hint="Fecha de Nacimiento (yyyy/mm/dd)"
                 android:inputType="date"
-                android:editable="false"/>
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,7 +171,10 @@
                 android:background="@drawable/rounded_background"
                 android:drawableStart="@drawable/ic_action_sex"
                 android:drawablePadding="10dp"
-                android:hint="Sexo" />
+                android:hint="Sexo"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botón "Registrar" en la parte inferior -->

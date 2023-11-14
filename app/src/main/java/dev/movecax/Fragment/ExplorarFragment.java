@@ -233,5 +233,3 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 }
-
-
