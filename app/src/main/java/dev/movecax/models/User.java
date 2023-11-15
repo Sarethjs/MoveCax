@@ -5,12 +5,15 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.Date;
 
 import dev.movecax.Presenters.UserModelListener;
 import dev.movecax.models.helpers.ErrorFormatter;
 import dev.movecax.singleton.UserSingleton;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -191,6 +194,40 @@ public class User {
 
     }
 
+    public static void restorePassword(ResetRequest request, UserModelListener.RestorePassword listener) {
+
+        UserService service = UserService.retrofit.create(UserService.class);
+        Call<ResponseBody> call = service.restorePassword(request);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        Log.d("restore_pas", "onResponse: " + response.body());
+                        JsonParser parser = new JsonParser();
+                        String jsonResponse = response.body().string();
+                        JsonObject jsonObject = parser.parse(jsonResponse).getAsJsonObject();
+                        listener.success(jsonObject.get("msg").getAsString());
+                    } catch (IOException | NullPointerException e) {
+                        listener.failure("Error leyendo respuesta del servidor");
+                    }
+
+                } else {
+                    Log.d("restore_pas", "onResponse: " + response.errorBody());
+                    String error = ErrorFormatter.parseError(response.errorBody());
+                    listener.failure(error);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
+                listener.failure("Server not found");
+            }
+        });
+    }
+
 
     // Getters y setters
     public int getId() {
@@ -215,10 +252,6 @@ public class User {
 
     public void setEmail(String Email) {
         this.email = Email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String Password) {
