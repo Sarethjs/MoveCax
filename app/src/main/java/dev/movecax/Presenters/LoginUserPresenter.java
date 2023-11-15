@@ -1,6 +1,7 @@
 package dev.movecax.Presenters;
 
 import dev.movecax.MainActivity;
+import dev.movecax.models.ResetRequest;
 import dev.movecax.models.User;
 import dev.movecax.singleton.UserSingleton;
 import dev.movecax.views.LoginUserActivity;
@@ -8,8 +9,10 @@ import dev.movecax.views.LoginUserActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
-public class LoginUserPresenter implements UserModelListener.LoginListener{
+public class LoginUserPresenter implements UserModelListener.LoginListener,
+UserModelListener.RestorePassword{
 
     private final LoginUserActivity view;
 
@@ -42,6 +45,12 @@ public class LoginUserPresenter implements UserModelListener.LoginListener{
         view.finish();
     }
 
+
+    public void restorePassRequest(String email) {
+        ResetRequest request = new ResetRequest(email);
+        User.restorePassword(request, this);
+    }
+
     @Override
     public void userNotLogged(String message) {
         view.userNotLogged(message);
@@ -50,5 +59,15 @@ public class LoginUserPresenter implements UserModelListener.LoginListener{
     @Override
     public void onFailure() {
         view.userNotLogged("Error al hacer la petición");
+    }
+
+    @Override
+    public void success(String msg) {
+        Toast.makeText(this.view.getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void failure(String err) {
+        Toast.makeText(this.view.getApplicationContext(), err, Toast.LENGTH_SHORT).show();
     }
 }

@@ -22,4 +22,9 @@ public interface UserModelListener {
         void userCreated(String msg);
         void userNotCreated(String err);
     }
+
+    interface RestorePassword {
+        void success(String msg);
+        void failure(String err);
+    }
 }
