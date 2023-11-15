@@ -1,44 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_second.xml -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragment.FavoritoFragment">
+    android:background="@drawable/gradient_purple">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Texto "Novedades" centrado en la parte superior -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-black"
-        android:textColor="@color/purple_modified"
+        android:textColor="@color/white"
         android:textSize="40sp"
         android:text="Novedades" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <!-- Contenedor para Título, Imagen y Descripción -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
-        <com.airbnb.lottie.LottieAnimationView
+        <!-- Título -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Título"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"/>
 
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/desierto" />/>
-        <com.airbnb.lottie.LottieAnimationView
+        <!-- Agrega el ViewFlipper para las imágenes dentro de un CardView -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="350dp"
+            android:layout_height="500dp"
+            android:layout_marginTop="10dp"
+            app:cardCornerRadius="26dp"
+            android:gravity="center_horizontal">
 
-            android:layout_width="400dp"
-            android:layout_height="200dp"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/comingsoon2" />/>
+        <ViewFlipper
+            android:id="@+id/viewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+            <!-- Aquí se añadirán las imágenes dinámicamente -->
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </ViewFlipper>
+
+    </androidx.cardview.widget.CardView>
+
+        <!-- Descripción -->
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
+
+    <!-- Puntos en la parte inferior -->
+    <LinearLayout
+        android:id="@+id/dotsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="90dp">
+
+        <!-- Puntos individuales, puedes añadir más según la cantidad de imágenes -->
+        <View
+            android:id="@+id/dot1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/dot_selector" />
+
+        <View
+            android:id="@+id/dot2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/dot_selector" />
+
+        <View
+            android:id="@+id/dot3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/dot_selector" />
+    </LinearLayout>
 
 </FrameLayout>
+
