@@ -1,7 +1,5 @@
 package dev.movecax.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,10 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import dev.movecax.Presenters.LoginUserPresenter;
 import dev.movecax.Presenters.contracts.LoginUserContract;
 import dev.movecax.R;
-import dev.movecax.models.User;
 
 public class LoginUserActivity extends AppCompatActivity implements LoginUserContract {
 
@@ -47,12 +46,7 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
 
 
         TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
-        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showResetPasswordDialog();
-            }
-        });
+        tvForgotPassword.setOnClickListener(v -> showResetPasswordDialog());
 
     }
 
@@ -72,8 +66,6 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
     @Override
     public void userLogged(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-        // Open another activity
     }
 
     @Override
@@ -93,26 +85,16 @@ public class LoginUserActivity extends AppCompatActivity implements LoginUserCon
         builder.setTitle("Recuperar Contraseña");
 
         // Configura el botón de restablecimiento de contraseña en el diálogo
-        builder.setPositiveButton("Restablecer Contraseña ", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Aquí implementa la lógica para enviar la contraseña temporal al correo proporcionado
-                EditText editTextEmail = dialogView.findViewById(R.id.editTextEmail);
-                String userEmail = editTextEmail.getText().toString();
-                // Implementa la lógica de envío de correo aquí
-
-                // Cierra el diálogo
-                dialog.dismiss();
-            }
+        builder.setPositiveButton("Restablecer Contraseña ", (dialog, which) -> {
+            // Aquí implementa la lógica para enviar la contraseña temporal al correo proporcionado
+            EditText editTextEmail = dialogView.findViewById(R.id.editTextEmail);
+            String userEmail = editTextEmail.getText().toString();
+            // Implementa la lógica de envío de correo aquí
+            presenter.restorePassRequest(userEmail);
         });
 
         // Configura el botón de cancelar
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         // Muestra el diálogo
         builder.create().show();
