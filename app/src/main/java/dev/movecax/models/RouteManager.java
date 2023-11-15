@@ -67,10 +67,14 @@ public class RouteManager {
                     }
                     catch (JsonSyntaxException e) {
                         listener.routNotObtained("Error reading response");
+                        listener.routeObtained("Resolving error",
+                                new Route("None", routePoints));
                         e.printStackTrace();
                     }
                     catch (IOException | NullPointerException e) {
                         listener.routNotObtained("Error reading response");
+                        listener.routeObtained("Resolving error",
+                                new Route("None", routePoints));
                     }
 
                 } else {
