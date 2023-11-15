@@ -4,19 +4,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.airbnb.lottie.L;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dev.movecax.Presenters.RouteManagerListener;
 import dev.movecax.models.helpers.ErrorFormatter;
@@ -45,7 +42,7 @@ public class RouteManager {
                     ResponseBody responseBody = response.body();
 
                     try (JsonReader jsonReader = new JsonReader(
-                            new InputStreamReader(responseBody.byteStream(),
+                            new InputStreamReader(Objects.requireNonNull(responseBody).byteStream(),
                                     StandardCharsets.UTF_8))) {
 
                         jsonReader.beginArray();
@@ -90,8 +87,6 @@ public class RouteManager {
                 Log.d("route_parser", "onFailure: " + t.getMessage());
             }
         });
-
-
     }
 
     private LatLng readPoint(JsonReader reader) throws IOException {
