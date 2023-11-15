@@ -33,11 +33,12 @@
             android:textColor="@android:color/white"
             android:fontFamily="sans-serif-black"
             android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:visibility="gone"/>
 
         <!-- Agrega el ViewFlipper para las imágenes dentro de un CardView -->
         <androidx.cardview.widget.CardView
-            android:layout_width="350dp"
+            android:layout_width="380dp"
             android:layout_height="500dp"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="26dp"
@@ -64,7 +65,8 @@
             android:textColor="@android:color/white"
             android:fontFamily="sans-serif-black"
             android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

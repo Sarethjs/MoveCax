@@ -22,7 +22,7 @@ public class FavoritoFragment extends Fragment {
     private TextView descriptionTextView;
     private int currentIndex = 0;
 
-    private int[] imageResIds = {R.drawable.city, R.drawable.plaza, R.drawable.logo};
+    private int[] imageResIds = {R.drawable.anun1, R.drawable.anun2, R.drawable.anun3};
     private String[] titles = {"Título 1", "Título 2", "Título 3"};
     private String[] descriptions = {"Descripción 1", "Descripción 2", "Descripción 3"};
 
@@ -53,7 +53,7 @@ public class FavoritoFragment extends Fragment {
         // Configura la animación del ViewFlipper
         viewFlipper.setInAnimation(getContext(), android.R.anim.slide_in_left);
         viewFlipper.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-        viewFlipper.setFlipInterval(3000); // Cambia a la duración deseada en milisegundos
+        viewFlipper.setFlipInterval(4000); // Cambia a la duración deseada en milisegundos
         viewFlipper.setAutoStart(true);
 
         // Inicia la rotación de imágenes
@@ -98,9 +98,9 @@ public class FavoritoFragment extends Fragment {
                 Log.d("DotSelector", "Selected index: " + currentIndex);
 
                 // Programa la próxima rotación después de un tiempo
-                handler.postDelayed(this, 3000); // Cambia a la duración deseada en milisegundos
+                handler.postDelayed(this, 4000); // Cambia a la duración deseada en milisegundos
             }
-        }, 1000); // Inicia la rotación después de un tiempo inicial (en este caso, 1 segundo)
+        }, 4000); // Inicia la rotación después de un tiempo inicial (en este caso, 1 segundo)
     }
 
 
