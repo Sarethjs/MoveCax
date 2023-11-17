@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -108,6 +109,12 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         autocompleteFragment.setHint("¿A dónde quieres llegar?");
         autocompleteFragment.setActivityMode(AutocompleteActivityMode.OVERLAY);
         autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
+        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
+
+        // Establecer la ubicación de Cajamarca como límite para las búsquedas
+        LatLng cajamarcaLatLng = new LatLng(-7.1638, -78.5003); // Coordenadas de Cajamarca
+        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(cajamarcaLatLng, cajamarcaLatLng));
+
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override

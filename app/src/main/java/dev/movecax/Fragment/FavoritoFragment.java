@@ -3,7 +3,9 @@ package dev.movecax.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,6 +27,8 @@ public class FavoritoFragment extends Fragment {
     private int[] imageResIds = {R.drawable.anun1, R.drawable.anun2, R.drawable.anun3};
     private String[] titles = {"Título 1", "Título 2", "Título 3"};
     private String[] descriptions = {"Descripción 1", "Descripción 2", "Descripción 3"};
+
+    private GestureDetector gestureDetector;
 
     public FavoritoFragment() {
         // Required empty public constructor
@@ -56,12 +60,22 @@ public class FavoritoFragment extends Fragment {
         viewFlipper.setFlipInterval(4000); // Cambia a la duración deseada en milisegundos
         viewFlipper.setAutoStart(true);
 
+        // Configura el detector de gestos táctiles
+        gestureDetector = new GestureDetector(getContext(), new GestureListener());
+
+        // Agrega el listener táctil al ViewFlipper
+        viewFlipper.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+
         // Inicia la rotación de imágenes
         startImageRotation();
 
         return view;
     }
-
 
     private void initializeDots(View view) {
         ViewGroup dotsContainer = view.findViewById(R.id.dotsContainer);
@@ -103,6 +117,32 @@ public class FavoritoFragment extends Fragment {
         }, 4000); // Inicia la rotación después de un tiempo inicial (en este caso, 1 segundo)
     }
 
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final int SWIPE_THRESHOLD = 100;
+        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                float diffY = e2.getY() - e1.getY();
+                float diffX = e2.getX() - e1.getX();
+
+                if (Math.abs(diffX) > Math.abs(diffY) &&
+                        Math.abs(diffX) > SWIPE_THRESHOLD &&
+                        Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        viewFlipper.showPrevious();
+                    } else {
+                        viewFlipper.showNext();
+                    }
+                    return true;
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+            return false;
+        }
+    }
 
     private void updateDots(int position) {
         for (int i = 0; i < dots.length; i++) {
@@ -110,3 +150,4 @@ public class FavoritoFragment extends Fragment {
         }
     }
 }
+
