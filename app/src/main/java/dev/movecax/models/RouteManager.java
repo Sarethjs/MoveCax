@@ -158,10 +158,9 @@ public class RouteManager {
             }
         }
 
-        return new ArrayList<>(
-                (indexToOrigin <= indexToDest)
-                        ? points.subList(indexToOrigin, indexToDest + 1)
-                        : points.subList(indexToDest, indexToOrigin + 1)
+        return new ArrayList<>((indexToOrigin <= indexToDest)
+                ? points.subList(indexToOrigin, indexToDest + 1)
+                : points.subList(indexToDest, indexToOrigin + 1)
         );
     }
 
