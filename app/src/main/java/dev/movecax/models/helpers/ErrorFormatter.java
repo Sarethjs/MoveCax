@@ -29,8 +29,6 @@ public class ErrorFormatter {
                     return "ERROR: " + jsonObject.get("error").getAsString();
                 }
 
-                throw new IOException("Error has not a description");
-
             } catch (IOException ioException){
                 return FORMAT_ERROR;
             }
