@@ -1,11 +1,11 @@
 package dev.movecax.models;
 
+import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
@@ -24,9 +24,15 @@ import retrofit2.Response;
 
 public class RouteManager {
 
+    private static final String POINTS_ATTRIBUTE = "points";
+    private static final String NAME_ATTRIBUTE = "name";
+    private static final String PRICE_ATTRIBUTE = "price";
+    private static final String LATITUDE = "lat";
+    private static final String LONGITUDE = "lon";
+
     private final RouteService service = RouteService.retrofit.create(RouteService.class);
 
-    public void getBestRoute(RouteManagerListener listener, RouteRequest request) {
+    public void getBestRoute(@NonNull RouteManagerListener listener, @NonNull RouteRequest request) {
 
         Call<ResponseBody> call = service.getBestRoute(request.getLato(), request.getLono(),
                 request.getLatd(), request.getLond());
@@ -36,45 +42,47 @@ public class RouteManager {
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    @NonNull Response<ResponseBody> response) {
 
+                String routeName = "None";
+                float price = 0;
                 List<LatLng> routePoints = new ArrayList<>();
 
                 if (response.isSuccessful()) {
-                    ResponseBody responseBody = response.body();
+                    try (ResponseBody responseBody = response.body()) {
 
-                    try (JsonReader jsonReader = new JsonReader(
-                            new InputStreamReader(Objects.requireNonNull(responseBody).byteStream(),
-                                    StandardCharsets.UTF_8))) {
+                        try (JsonReader jsonReader = new JsonReader(
+                                new InputStreamReader(Objects.requireNonNull(responseBody).byteStream(),
+                                        StandardCharsets.UTF_8))) {
 
-                        jsonReader.beginArray();
+                            jsonReader.beginObject();
 
-                        int counter = 0;
-                        Log.d("route_parser", "onResponse: Reading Json File");
-                        while (jsonReader.hasNext()) {
-                            Log.d("route_parser", "onResponse: Read: " + counter + " point");
-                            try {
-                                routePoints.add(readPoint(jsonReader));
-                            } catch (IllegalStateException e) {
-                                break;
+                            Log.d("route_parser", "onResponse: Reading Json File");
+                            while (jsonReader.hasNext()) {
+                                String attribute = jsonReader.nextName();
+
+                                switch (attribute) {
+                                    case RouteManager.NAME_ATTRIBUTE:
+                                        routeName = jsonReader.nextString();
+                                        break;
+                                    case RouteManager.PRICE_ATTRIBUTE:
+                                        price = (float) jsonReader.nextDouble();
+                                        break;
+                                    case RouteManager.POINTS_ATTRIBUTE:
+                                        routePoints = readPoints(jsonReader);
+                                        break;
+                                    default:
+                                        jsonReader.skipValue();
+                                        break;
+                                }
                             }
-                            counter++;
+                            jsonReader.endObject();
+                            listener.routeObtained("", new Route(
+                                    routeName,
+                                    RouteManager.optimizeRoute(request, routePoints),
+                                    price
+                            ));
+                        } catch (IOException | NullPointerException e) {
+                            listener.routNotObtained("Error reading response");
                         }
-                        // jsonReader.endArray();
-                        jsonReader.close();
-                        Log.d("route_parser", "onResponse: File read!");
-                        Log.d("route_parser", "onResponse: Points read: " + counter);
-                        listener.routeObtained("Route loaded",
-                                new Route("None", routePoints));
-                    }
-                    catch (JsonSyntaxException e) {
-                        listener.routNotObtained("Error reading response");
-                        listener.routeObtained("Resolving error",
-                                new Route("None", routePoints));
-                        e.printStackTrace();
-                    }
-                    catch (IOException | NullPointerException e) {
-                        listener.routNotObtained("Error reading response");
-                        listener.routeObtained("Resolving error",
-                                new Route("None", routePoints));
                     }
 
                 } else {
@@ -93,25 +101,79 @@ public class RouteManager {
         });
     }
 
-    private LatLng readPoint(JsonReader reader) throws IOException {
+    private List<LatLng> readPoints(JsonReader reader) throws IOException {
 
-        double lat = 0;
-        double lon = 0;
-
-        reader.beginObject();
+        List<LatLng> points = new ArrayList<>();
+        reader.beginArray();
 
         while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("lat")) {
-                lat = reader.nextDouble();
-            } else if (name.equals("lon")) {
-                lon = reader.nextDouble();
-            }  else {
-                reader.skipValue();
+            reader.beginObject();
+            double lat = 0, lon = 0;
+
+            while (reader.hasNext()) {
+                final String attribute = reader.nextName();
+
+                switch (attribute) {
+                    case RouteManager.LATITUDE:
+                        lat = reader.nextDouble();
+                        break;
+
+                    case RouteManager.LONGITUDE:
+                        lon = reader.nextDouble();
+                        break;
+
+                    default:
+                        reader.skipValue();
+                        break;
+                }
+            }
+            reader.endObject();
+            points.add(new LatLng(lat, lon));
+        }
+
+        reader.endArray();
+        return points;
+    }
+
+    private static List<LatLng> optimizeRoute(RouteRequest request, List<LatLng> points) {
+
+        LatLng origin = new LatLng(request.getLato(), request.getLono());
+        LatLng dest = new LatLng(request.getLatd(), request.getLond());
+
+        int indexToOrigin = 0, indexToDest = 0;
+        float minDistOrigin = Float.MAX_VALUE, minDistDest = Float.MAX_VALUE;
+
+        for (int index = 0; index < points.size(); index++) {
+            float distToOrigin = RouteManager.calculateDistance(origin, points.get(index));
+            float distToDest = RouteManager.calculateDistance(dest, points.get(index));
+
+            if (distToOrigin < minDistOrigin) {
+                minDistOrigin = distToOrigin;
+                indexToOrigin = index;
+            }
+
+            if (distToDest < minDistDest) {
+                minDistDest = distToDest;
+                indexToDest = index;
             }
         }
 
-        reader.endObject();
-        return new LatLng(lat, lon);
+        return new ArrayList<>(
+                (indexToOrigin <= indexToDest)
+                        ? points.subList(indexToOrigin, indexToDest + 1)
+                        : points.subList(indexToDest, indexToOrigin + 1)
+        );
+    }
+
+    private static float calculateDistance(LatLng point1, LatLng point2) {
+        Location location1 = new Location("Point 1");
+        location1.setLatitude(point1.latitude);
+        location1.setLongitude(point1.longitude);
+
+        Location location2 = new Location("Point 2");
+        location2.setLatitude(point2.latitude);
+        location2.setLongitude(point2.longitude);
+
+        return location1.distanceTo(location2);
     }
 }
