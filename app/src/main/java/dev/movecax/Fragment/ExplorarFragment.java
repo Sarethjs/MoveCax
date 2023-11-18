@@ -42,6 +42,7 @@ import java.util.List;
 
 import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
+import dev.movecax.Info.BottomSheetFragment;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
@@ -54,6 +55,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     private PlacesClient placesClient;
     private AutocompleteSupportFragment autocompleteFragment;
     private Marker selectedPlaceMarker;
+    private BottomSheetFragment bottomSheetFragment;
 
     public ExplorarFragment() {}
 
@@ -126,6 +128,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
                 // Make request
                 presenter.makeRequest(currentLocation, location);
+                // Mostrar el BottomSheetFragment
+                showBottomSheetFragment();
             }
 
             @Override
@@ -239,4 +243,12 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             this.showError("Error: " + e.getMessage());
         }
     }
+
+    private void showBottomSheetFragment() {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+        bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+
 }
+
