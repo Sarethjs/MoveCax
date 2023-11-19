@@ -110,8 +110,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         autocompleteFragment.setCountry("PE"); // Cambia a tu país
         autocompleteFragment.setHint("¿A dónde quieres llegar?");
         autocompleteFragment.setActivityMode(AutocompleteActivityMode.OVERLAY);
-        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
-        autocompleteFragment.setTypeFilter(TypeFilter.ESTABLISHMENT);
+
 
         // Establecer la ubicación de Cajamarca como límite para las búsquedas
         LatLng cajamarcaLatLng = new LatLng(-7.1638, -78.5003); // Coordenadas de Cajamarca

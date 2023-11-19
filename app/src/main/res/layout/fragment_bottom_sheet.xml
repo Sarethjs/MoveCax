@@ -42,8 +42,6 @@
             android:layout_marginEnd="8dp"
             android:paddingBottom="10dp"/>
 
-
-
         <TextView
             android:id="@+id/textViewDestino"
             android:layout_width="0dp"
@@ -64,20 +62,48 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@android:color/holo_purple"/>
-    <TextView
-        android:id="@+id/textViewTarifa"
-        android:layout_width="wrap_content"
+
+    <!-- Layout horizontal para Tarifa y Recomendaciones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tarifa"
-        android:textSize="16sp"
-        android:textColor="@color/purple_modified"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center"
-        android:paddingBottom="20dp"
-        android:paddingTop="10dp"
-        android:background="@drawable/rounded_background"
-        />
+        android:orientation="horizontal">
+
+        <!-- Tarifa -->
+        <TextView
+            android:id="@+id/textViewTarifa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tarifa"
+            android:textSize="16sp"
+            android:textColor="@color/purple_modified"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/rounded_background"
+            android:textAlignment="center"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="#9C27B0"/>
+
+        <!-- Apartado de recomendaciones -->
+        <TextView
+            android:id="@+id/textViewRecomendaciones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Debes subir en...\nDebes bajar en..."
+            android:textSize="14sp"
+            android:textColor="@color/purple_modified"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:padding="16dp"/>
+    </LinearLayout>
 
     <!-- Agrega los botones -->
     <LinearLayout
