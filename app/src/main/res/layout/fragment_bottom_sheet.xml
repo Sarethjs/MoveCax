@@ -1,21 +1,110 @@
 <!-- res/layout/fragment_bottom_sheet.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/round_sheet">
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/animationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_height="200dp"
+            android:layout_width="400dp"
+            app:lottie_rawRes="@raw/bus"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!-- Horizontal LinearLayout para Inicio y Destino -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewInicio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Inicio"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textColor="@color/purple_modified"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingBottom="10dp"/>
+
+
+
+        <TextView
+            android:id="@+id/textViewDestino"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Destino"
+            android:textSize="16sp"
+            android:textColor="@color/purple_modified"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_background"
+            android:textAlignment="center"
+            android:paddingBottom="10dp"/>
+    </LinearLayout>
+
+    <!-- Línea divisoria horizontal -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/holo_purple"/>
     <TextView
-        android:id="@+id/textViewTitle"
+        android:id="@+id/textViewTarifa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Título" />
-
-    <TextView
-        android:id="@+id/textViewContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="Tarifa"
+        android:textSize="16sp"
+        android:textColor="@color/purple_modified"
+        android:textStyle="bold"
         android:layout_marginTop="8dp"
-        android:text="Contenido" />
+        android:layout_gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/rounded_background"
+        />
+
+    <!-- Agrega los botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonCancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancelar"
+            android:backgroundTint="#2195F2"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/buttonTomarRuta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="Tomar Ruta"
+            android:backgroundTint="@color/purple_modified"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
 </LinearLayout>
