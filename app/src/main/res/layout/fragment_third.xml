@@ -7,15 +7,25 @@
     tools:context=".Fragment.HistorialFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-black"
-        android:textColor="@color/purple_modified"
-        android:textSize="40sp"
-        android:text="Historial" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/round_navigationtop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:text="Historial"
+            android:paddingBottom="10dp"/>
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
