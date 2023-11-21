@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,10 +27,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -107,7 +103,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(@NonNull Place place) {
                 LatLng location = place.getLatLng();
                 mGoogleMap.clear();
                 selectedPlaceMarker = mGoogleMap.addMarker(new MarkerOptions().position(location).title(place.getName()));
@@ -122,7 +118,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             }
 
             @Override
-            public void onError(com.google.android.gms.common.api.Status status) {
+            public void onError(@NonNull com.google.android.gms.common.api.Status status) {
                 showError("Error: " + status.getStatusMessage());
             }
         });
@@ -224,7 +220,9 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         ));
 
         // Getting street name
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(route, this.streetDest, this.streetOrigin);
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(
+                route, this.streetDest, this.streetOrigin
+        );
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 
@@ -234,7 +232,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         if (this.getContext() != null) {
             geocoder = new Geocoder(this.getContext(), Locale.getDefault());
-        } else return "Unknown";
+        } else return null;
 
         try {
             List<Address> addresses = geocoder.getFromLocation(
@@ -243,9 +241,9 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
             if (addresses != null)
                 return addresses.get(0).getThoroughfare();
             else
-                return "Unknown";
+                return null;
         } catch (IOException | NullPointerException e){
-            return "Unknown";
+            return null;
         }
     }
 }
