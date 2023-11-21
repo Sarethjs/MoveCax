@@ -1,7 +1,6 @@
 package dev.movecax.Info;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,34 +9,43 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.util.Locale;
+
+import dev.movecax.Presenters.TakeRoute;
 import dev.movecax.R;
 import dev.movecax.models.Route;
+import dev.movecax.singleton.UserSingleton;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
-    private TextView textViewTarifa, tvRouteName;
+    private TextView tvRoutePrice, tvRouteName, tvDest;
     private Button btnTakeRoute, btnCancel;
-    private Route route;
+    public Route route;
+    public String destStreet;
+    private TakeRoute presenter;
 
     public BottomSheetFragment() {
     }
 
-    public BottomSheetFragment(Route route) {
+    public BottomSheetFragment(Route route, String destStreet) {
         this.route = route;
-        Log.d("inf_route", "BottomSheetFragment: Show data");
+        this.destStreet = destStreet;
+        presenter = new TakeRoute(this);
     }
 
     public void setData(Route route) {
         // Setting price
         float price = route.getPrice();
-        String strPrice = String.format("S./ %.2f", price);
-        this.textViewTarifa.setText(strPrice);
+        String strPrice = String.format(Locale.US,"S./ %.2f", price);
+        this.tvRoutePrice.setText(strPrice);
 
         // Setting name
         this.tvRouteName.setText(route.getRouteName());
+
+        // Setting destination
+        this.tvDest.setText(this.destStreet == null ? "Not resolved" : this.destStreet);
     }
 
     @Nullable
@@ -47,18 +55,18 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false);
 
         // Init components
-        this.textViewTarifa = view.findViewById(R.id.textViewTarifa);
+        this.tvRoutePrice = view.findViewById(R.id.textViewTarifa);
         this.btnCancel = view.findViewById(R.id.btnCancel);
         this.btnTakeRoute = view.findViewById(R.id.btnTakeRoute);
         this.tvRouteName = view.findViewById(R.id.tvBusName);
+        this.tvDest = view.findViewById(R.id.tvDest);
 
-        // Asignar eventos
+        // Events for buttons
         this.btnCancel.setOnClickListener(v -> this.cancel());
         this.btnTakeRoute.setOnClickListener(v -> this.takeRoute());
 
-        // Mostrar información de la ruta
+        // Show route information
         this.setData(this.route);
-
 
         return view;
     }
@@ -72,10 +80,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void takeRoute() {
-
+        this.presenter.saveHistory();
     }
     private void cancel() {
-
+        dismiss();
     }
 }
 

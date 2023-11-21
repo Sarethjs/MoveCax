@@ -1,5 +1,6 @@
 package dev.movecax.models;
 
+import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+//import com.google
 
 public class RouteManager {
 
@@ -75,6 +78,7 @@ public class RouteManager {
                                 }
                             }
                             jsonReader.endObject();
+                            
                             listener.routeObtained("", new Route(
                                     routeName,
                                     RouteManager.optimizeRoute(request, routePoints),
@@ -90,7 +94,6 @@ public class RouteManager {
                 } else {
                     String error = ErrorFormatter.parseError(response.errorBody());
                     listener.routeNotObtained(error);
-
                 }
             }
 
