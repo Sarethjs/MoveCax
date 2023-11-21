@@ -13,44 +13,16 @@
         android:id="@+id/mapContainer"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="640dp"
+        android:layout_height="580dp"
         android:layout_gravity="center"
         app:cameraZoom="20"
         map:uiRotateGestures="true"
         map:uiZoomControls="true"
-        android:layout_marginTop="15dp"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- Contenedor del FloatingActionButton -->
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="40dp"/>
 
 
-        </FrameLayout>
 
-        <!-- FloatingActionButton -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabButton"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="13dp"
-            android:layout_marginBottom="200dp"
-            android:src="@drawable/ic_action_marcador"
-            app:backgroundTint="@color/white"
-            app:elevation="6dp"
-            app:pressedTranslationZ="12dp"
-            app:layout_constraintBottom_toBottomOf="@+id/container"
-            app:layout_constraintEnd_toEndOf="@+id/container"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     <!-- Fragmento de autocompletado -->
@@ -66,7 +38,7 @@
             android:layout_height="80dp"
             android:src="@drawable/logo"
             android:layout_gravity="center_horizontal"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="350dp"
