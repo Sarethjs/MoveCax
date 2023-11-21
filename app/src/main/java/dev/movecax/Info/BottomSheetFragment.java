@@ -50,7 +50,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         this.textViewTarifa = view.findViewById(R.id.textViewTarifa);
         this.btnCancel = view.findViewById(R.id.btnCancel);
         this.btnTakeRoute = view.findViewById(R.id.btnTakeRoute);
-        //this.tvRouteName = view.findViewById(R.id.)
+        this.tvRouteName = view.findViewById(R.id.tvBusName);
 
         // Asignar eventos
         this.btnCancel.setOnClickListener(v -> this.cancel());
