@@ -112,7 +112,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonCancelar"
+            android:id="@+id/btnCancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -122,7 +122,7 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/buttonTomarRuta"
+            android:id="@+id/btnTakeRoute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"

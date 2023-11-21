@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -40,9 +38,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import dev.movecax.Info.BottomSheetFragment;
 import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
-import dev.movecax.Info.BottomSheetFragment;
+import dev.movecax.models.Route;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
@@ -128,7 +127,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                 // Make request
                 presenter.makeRequest(currentLocation, location);
                 // Mostrar el BottomSheetFragment
-                showBottomSheetFragment();
+                // showBottomSheetFragment();
             }
 
             @Override
@@ -243,8 +242,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void showBottomSheetFragment() {
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+    public void showRouteInformation(Route route) {
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(route);
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 

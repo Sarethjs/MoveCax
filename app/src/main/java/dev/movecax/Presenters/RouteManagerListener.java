@@ -4,5 +4,5 @@ import dev.movecax.models.Route;
 
 public interface RouteManagerListener {
     void routeObtained(String msg, Route route);
-    void routNotObtained(String err);
+    void routeNotObtained(String err);
 }
