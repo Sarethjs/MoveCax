@@ -18,7 +18,7 @@ import dev.movecax.R;
 import dev.movecax.models.Route;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
-    private TextView textViewTarifa;
+    private TextView textViewTarifa, tvRouteName;
     private Button btnTakeRoute, btnCancel;
     private Route route;
 
@@ -37,6 +37,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         this.textViewTarifa.setText(strPrice);
 
         // Setting name
+        this.tvRouteName.setText(route.getRouteName());
     }
 
     @Nullable
@@ -49,6 +50,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         this.textViewTarifa = view.findViewById(R.id.textViewTarifa);
         this.btnCancel = view.findViewById(R.id.btnCancel);
         this.btnTakeRoute = view.findViewById(R.id.btnTakeRoute);
+        //this.tvRouteName = view.findViewById(R.id.)
 
         // Asignar eventos
         this.btnCancel.setOnClickListener(v -> this.cancel());
