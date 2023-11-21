@@ -30,11 +30,12 @@ public class ExplorePresenter implements RouteManagerListener {
     @Override
     public void routeObtained(String msg, Route route) {
         this.drawCustomRoute(route);
+        this.view.showRouteInformation(route);
         this.view.showMessage("Mejor ruta encontrada");
     }
 
     @Override
-    public void routNotObtained(String err) {
+    public void routeNotObtained(String err) {
         this.view.showError(err);
     }
 
