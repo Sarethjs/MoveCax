@@ -2,7 +2,6 @@ package dev.movecax.Presenters;
 
 import dev.movecax.Info.BottomSheetFragment;
 import dev.movecax.models.History;
-import dev.movecax.models.User;
 import dev.movecax.singleton.UserSingleton;
 
 public class TakeRoute {
@@ -16,7 +15,8 @@ public class TakeRoute {
 
         History history = new History(
                 UserSingleton.getCurrentUser().getEmail(),
-                view.route.getRouteName()
+                view.route.getRouteName(),
+                view.destStreet
         );
     }
 }
