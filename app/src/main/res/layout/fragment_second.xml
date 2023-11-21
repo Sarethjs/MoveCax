@@ -38,7 +38,7 @@
 
         <!-- Agrega el ViewFlipper para las imágenes dentro de un CardView -->
         <androidx.cardview.widget.CardView
-            android:layout_width="380dp"
+            android:layout_width="360dp"
             android:layout_height="500dp"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="26dp"

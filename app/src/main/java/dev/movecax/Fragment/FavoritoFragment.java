@@ -1,8 +1,6 @@
 package dev.movecax.Fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -54,12 +52,6 @@ public class FavoritoFragment extends Fragment {
         // Inicializa los puntos
         initializeDots(view);
 
-        // Configura la animación del ViewFlipper
-        viewFlipper.setInAnimation(getContext(), android.R.anim.slide_in_left);
-        viewFlipper.setOutAnimation(getContext(), android.R.anim.slide_out_right);
-        viewFlipper.setFlipInterval(4000); // Cambia a la duración deseada en milisegundos
-        viewFlipper.setAutoStart(true);
-
         // Configura el detector de gestos táctiles
         gestureDetector = new GestureDetector(getContext(), new GestureListener());
 
@@ -67,12 +59,10 @@ public class FavoritoFragment extends Fragment {
         viewFlipper.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
+                gestureDetector.onTouchEvent(event);
+                return true; // Debe devolver true para indicar que el evento ha sido manejado
             }
         });
-
-        // Inicia la rotación de imágenes
-        startImageRotation();
 
         return view;
     }
@@ -90,31 +80,6 @@ public class FavoritoFragment extends Fragment {
         }
 
         dots[currentIndex].setSelected(true);
-    }
-
-    private void startImageRotation() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // Actualiza el índice para la siguiente imagen
-                currentIndex = (currentIndex + 1) % imageResIds.length;
-
-                // Cambia la imagen en el ViewFlipper
-                viewFlipper.showNext();
-
-                // Actualiza el título y la descripción
-                titleTextView.setText(titles[currentIndex]);
-                descriptionTextView.setText(descriptions[currentIndex]);
-
-                // Actualiza el estado de los puntos
-                updateDots(currentIndex);
-                Log.d("DotSelector", "Selected index: " + currentIndex);
-
-                // Programa la próxima rotación después de un tiempo
-                handler.postDelayed(this, 4000); // Cambia a la duración deseada en milisegundos
-            }
-        }, 4000); // Inicia la rotación después de un tiempo inicial (en este caso, 1 segundo)
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -150,4 +115,3 @@ public class FavoritoFragment extends Fragment {
         }
     }
 }
-
