@@ -48,11 +48,18 @@
             android:text="Inicio"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textColor="@color/purple_modified"
+            android:textColor="#00AC07"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:paddingBottom="10dp"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_action_arrow"
+            android:contentDescription="Arrow pointing right"
+            android:layout_marginLeft="-15dp"/>
 
         <TextView
             android:id="@+id/tvDest"
@@ -61,7 +68,7 @@
             android:layout_weight="1"
             android:text="Destino"
             android:textSize="16sp"
-            android:textColor="@color/purple_modified"
+            android:textColor="@color/red_modified"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_background"
