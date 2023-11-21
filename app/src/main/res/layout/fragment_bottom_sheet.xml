@@ -7,6 +7,16 @@
     android:padding="16dp"
     android:background="@drawable/round_sheet">
 
+    <TextView
+        android:id="@+id/tvBusName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple_modified"
+        android:textStyle="bold|italic"
+        android:text="Nombre del bus"
+        android:textAlignment="center"
+        android:textSize="24sp"/>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/animationContainer"
         android:layout_width="match_parent"
@@ -19,7 +29,9 @@
             android:layout_width="400dp"
             app:lottie_rawRes="@raw/bus"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
+            app:lottie_autoPlay="true"
+            android:layout_marginBottom="-30dp"
+            android:layout_marginTop="-30dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <!-- Horizontal LinearLayout para Inicio y Destino -->
@@ -125,7 +137,7 @@
             android:id="@+id/btnTakeRoute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="0dp"
             android:layout_weight="1"
             android:text="Tomar Ruta"
             android:backgroundTint="@color/purple_modified"
