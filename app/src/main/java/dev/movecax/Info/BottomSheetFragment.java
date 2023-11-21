@@ -20,25 +20,26 @@ import dev.movecax.models.Route;
 import dev.movecax.singleton.UserSingleton;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
-    private TextView tvRoutePrice, tvRouteName, tvDest;
+    private TextView tvRoutePrice, tvRouteName, tvDest, tvOrigin;
     private Button btnTakeRoute, btnCancel;
     public Route route;
-    public String destStreet;
+    public String destStreet, originStreet;
     private TakeRoute presenter;
 
     public BottomSheetFragment() {
     }
 
-    public BottomSheetFragment(Route route, String destStreet) {
+    public BottomSheetFragment(Route route, String destStreet, String originStreet) {
         this.route = route;
         this.destStreet = destStreet;
+        this.originStreet = originStreet;
         presenter = new TakeRoute(this);
     }
 
     public void setData(Route route) {
         // Setting price
         float price = route.getPrice();
-        String strPrice = String.format(Locale.US,"S./ %.2f", price);
+        String strPrice = String.format(Locale.getDefault(),"S./ %.2f", price);
         this.tvRoutePrice.setText(strPrice);
 
         // Setting name
@@ -46,6 +47,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
         // Setting destination
         this.tvDest.setText(this.destStreet == null ? "Not resolved" : this.destStreet);
+
+        // Setting origin
+        this.tvOrigin.setText(this.originStreet == null ? "Not resolved" : this.originStreet);
     }
 
     @Nullable
@@ -60,6 +64,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         this.btnTakeRoute = view.findViewById(R.id.btnTakeRoute);
         this.tvRouteName = view.findViewById(R.id.tvBusName);
         this.tvDest = view.findViewById(R.id.tvDest);
+        this.tvOrigin = view.findViewById(R.id.tvOrigin);
 
         // Events for buttons
         this.btnCancel.setOnClickListener(v -> this.cancel());

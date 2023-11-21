@@ -2,19 +2,24 @@ package dev.movecax.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,15 +29,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import dev.movecax.Info.BottomSheetFragment;
 import dev.movecax.Presenters.ExplorePresenter;
@@ -45,7 +55,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     private ExplorePresenter presenter;
     private Location currentLocation;
     private Location destination;
-    private String streetDest;
+    private String streetDest, streetOrigin;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private SearchView searchView;
@@ -124,7 +134,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
         if (hasLocationPermission()) {
@@ -206,9 +216,37 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void showRouteInformation(Route route) {
+
+        // Get Street name from origin
+        this.streetOrigin = this.getStreetName(new LatLng(
+                this.currentLocation.getLatitude(),
+                this.currentLocation.getLongitude()
+        ));
+
         // Getting street name
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(route, this.streetDest);
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(route, this.streetDest, this.streetOrigin);
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+    }
+
+    private String getStreetName(@NonNull LatLng coordinates) {
+
+        Geocoder geocoder;
+
+        if (this.getContext() != null) {
+            geocoder = new Geocoder(this.getContext(), Locale.getDefault());
+        } else return "Unknown";
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(
+                    coordinates.latitude,
+                    coordinates.longitude, 1);
+            if (addresses != null)
+                return addresses.get(0).getThoroughfare();
+            else
+                return "Unknown";
+        } catch (IOException | NullPointerException e){
+            return "Unknown";
+        }
     }
 }
 

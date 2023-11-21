@@ -74,7 +74,12 @@ public class ProfilePresenter implements UserModelListener.LogoutListener,
     public void userLogout(String message) {
         view.userLogout(message);
         view.startActivity(new Intent(view.getContext(), LoginUserActivity.class));
-        view.getActivity().finish();
+
+        if (view.getActivity() != null) {
+            view.getActivity().finish();
+        } else {
+            onFailure("Unknown error");
+        }
     }
 
     @Override
