@@ -11,7 +11,7 @@ import retrofit2.http.POST;
 
 public interface UserService {
     Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://settling-humpback-clean.ngrok-free.app/")
+            .baseUrl("https://possible-steady-narwhal.ngrok-free.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
