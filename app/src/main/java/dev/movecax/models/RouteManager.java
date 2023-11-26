@@ -1,5 +1,6 @@
 package dev.movecax.models;
 
+import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 
@@ -21,6 +22,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+//import com.google
 
 public class RouteManager {
 
@@ -75,27 +78,29 @@ public class RouteManager {
                                 }
                             }
                             jsonReader.endObject();
+                            
                             listener.routeObtained("", new Route(
                                     routeName,
                                     RouteManager.optimizeRoute(request, routePoints),
                                     price
                             ));
+                            Log.d("route_parser", "onResponse: Parsed Json File");
                         } catch (IOException | NullPointerException e) {
-                            listener.routNotObtained("Error reading response");
+                            listener.routeNotObtained("Error reading response");
+                            Log.d("route_parser", "onResponse: Error: " + e);
                         }
                     }
 
                 } else {
                     String error = ErrorFormatter.parseError(response.errorBody());
-                    listener.routNotObtained(error);
-
+                    listener.routeNotObtained(error);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call,
                                   @NonNull Throwable t) {
-                listener.routNotObtained("No se  puede conectar al servidor");
+                listener.routeNotObtained("No se  puede conectar al servidor");
                 Log.d("route_parser", "onFailure: " + t.getMessage());
             }
         });

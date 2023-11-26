@@ -3,18 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient_purple">
+    android:background="@color/white">
 
-    <!-- Texto "Novedades" centrado en la parte superior -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="30dp"
-        android:fontFamily="sans-serif-black"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        android:text="Novedades" />
+        android:orientation="vertical"
+        android:background="@drawable/round_navigationtop">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:paddingBottom="10dp"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:text="Novedades" />
+
+    </LinearLayout>
 
     <!-- Contenedor para Título, Imagen y Descripción -->
     <LinearLayout
@@ -38,7 +46,7 @@
 
         <!-- Agrega el ViewFlipper para las imágenes dentro de un CardView -->
         <androidx.cardview.widget.CardView
-            android:layout_width="380dp"
+            android:layout_width="360dp"
             android:layout_height="500dp"
             android:layout_marginTop="10dp"
             app:cardCornerRadius="26dp"

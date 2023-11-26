@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import dev.movecax.Fragment.PerfilFragment;
 import dev.movecax.models.PasswordChangeRequest;
 import dev.movecax.models.User;
@@ -49,7 +52,11 @@ public class ProfilePresenter implements UserModelListener.LogoutListener,
         profileInformation[1].setText(currentUser.getLastnames());
         profileInformation[2].setText(currentUser.getEmail());
         profileInformation[3].setText("********");
-        profileInformation[4].setText(currentUser.getDateBorn().toString());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.US);
+        String dateFormatted = dateFormat.format(currentUser.getDateBorn());
+
+        profileInformation[4].setText(dateFormatted);
         profileInformation[5].setText(String.valueOf(currentUser.getSex()));
     }
 
@@ -67,7 +74,12 @@ public class ProfilePresenter implements UserModelListener.LogoutListener,
     public void userLogout(String message) {
         view.userLogout(message);
         view.startActivity(new Intent(view.getContext(), LoginUserActivity.class));
-        view.getActivity().finish();
+
+        if (view.getActivity() != null) {
+            view.getActivity().finish();
+        } else {
+            onFailure("Unknown error");
+        }
     }
 
     @Override

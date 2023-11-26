@@ -6,12 +6,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -30,7 +31,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -39,16 +39,20 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
+import dev.movecax.Info.BottomSheetFragment;
 import dev.movecax.Presenters.ExplorePresenter;
 import dev.movecax.R;
-import dev.movecax.Info.BottomSheetFragment;
+import dev.movecax.models.Route;
 
 public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mGoogleMap;
     private ExplorePresenter presenter;
     private Location currentLocation;
+    private Location destination;
+    private String streetDest, streetOrigin;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private SearchView searchView;
@@ -57,7 +61,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
     private Marker selectedPlaceMarker;
     private BottomSheetFragment bottomSheetFragment;
 
-    public ExplorarFragment() {}
+    public ExplorarFragment() {
+    }
 
     public static ExplorarFragment newInstance() {
         return new ExplorarFragment();
@@ -79,26 +84,6 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         // Obtener una referencia a la barra de búsqueda
         searchView = rootView.findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                buscarUbicacion(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Puedes realizar acciones mientras el texto de búsqueda cambia
-                if (newText.isEmpty()) {
-                    // Limpiar marcador si no hay texto en la búsqueda
-                    if (selectedPlaceMarker != null) {
-                        selectedPlaceMarker.remove();
-                        selectedPlaceMarker = null;
-                    }
-                }
-                return true;
-            }
-        });
 
         // Configurar el AutocompleteSupportFragment
         autocompleteFragment = AutocompleteSupportFragment.newInstance();
@@ -119,7 +104,7 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
-            public void onPlaceSelected(Place place) {
+            public void onPlaceSelected(@NonNull Place place) {
                 LatLng location = place.getLatLng();
                 mGoogleMap.clear();
                 selectedPlaceMarker = mGoogleMap.addMarker(new MarkerOptions().position(location).title(place.getName()));
@@ -127,24 +112,26 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
 
                 // Make request
                 presenter.makeRequest(currentLocation, location);
-                // Mostrar el BottomSheetFragment
-                showBottomSheetFragment();
+                destination = new Location("Destination");
+                destination.setLatitude(location.latitude);
+                destination.setLongitude(location.longitude);
+                streetDest = place.getName();
             }
 
             @Override
-            public void onError(com.google.android.gms.common.api.Status status) {
+            public void onError(@NonNull com.google.android.gms.common.api.Status status) {
                 showError("Error: " + status.getStatusMessage());
             }
         });
 
-        // Verificar y solicitar permisos de ubicación
-        checkAndRequestLocationPermissions();
+        // Verify and request permissions to access location
+        this.checkAndRequestLocationPermissions();
 
         return rootView;
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(@NonNull GoogleMap googleMap) {
         mGoogleMap = googleMap;
 
         if (hasLocationPermission()) {
@@ -225,29 +212,66 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         return mGoogleMap;
     }
 
-    private void buscarUbicacion(String query) {
-        Geocoder geocoder = new Geocoder(this.requireContext());
-        try {
-            List<Address> addresses = geocoder.getFromLocationName(query, 1);
-            if (!addresses.isEmpty()) {
-                Address address = addresses.get(0);
-                double latitude = address.getLatitude();
-                double longitude = address.getLongitude();
-                LatLng location = new LatLng(latitude, longitude);
-                mGoogleMap.clear();
-                mGoogleMap.addMarker(new MarkerOptions().position(location).title(query));
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
-            }
-        } catch (IOException e) {
-            this.showError("Error: " + e.getMessage());
-        }
-    }
+    public void showRouteInformation(Route route) {
 
-    private void showBottomSheetFragment() {
-        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
+        // Get Street name from origin
+        this.streetOrigin = this.getStreetName(new LatLng(
+                this.currentLocation.getLatitude(),
+                this.currentLocation.getLongitude()
+        ));
+
+        // Getting street name
+        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(
+                route, this.streetDest, this.streetOrigin
+        );
         bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
     }
 
+    private String getStreetName(@NonNull LatLng coordinates) {
 
+        Geocoder geocoder;
+
+        if (this.getContext() != null) {
+            geocoder = new Geocoder(this.getContext(), Locale.getDefault());
+        } else return null;
+
+        try {
+            List<Address> addresses = geocoder.getFromLocation(
+                    coordinates.latitude,
+                    coordinates.longitude, 1);
+            if (addresses != null)
+                return addresses.get(0).getThoroughfare();
+            else
+                return null;
+        } catch (IOException | NullPointerException e){
+            return null;
+        }
+    }
+
+    private void drawFromOrToDest() {
+
+
+    }
+
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+        String mode = "mode=driving";
+
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + mode;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+    }
 }
 

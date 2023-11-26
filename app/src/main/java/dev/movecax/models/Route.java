@@ -22,6 +22,14 @@ public class Route {
         return points;
     }
 
+    public float getPrice() {
+        return price;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
     @NonNull
     @Override
     public String toString() {
