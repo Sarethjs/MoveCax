@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tarifa"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="@color/purple_modified"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
@@ -117,9 +117,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Debes subir en...\nDebes bajar en..."
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/red_modified"
-            android:textStyle="italic"
+            android:textStyle="italic|bold"
             android:gravity="center"
             android:padding="16dp"/>
     </LinearLayout>

@@ -1,14 +1,21 @@
 package dev.movecax.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import dev.movecax.Adapters.HistoryAdapter;
 import dev.movecax.R;
+import dev.movecax.models.History;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,9 +65,32 @@ public class HistorialFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_third, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_third, container, false);
+
+        // Crea una lista de ejemplo con objetos History (cámbiala según tus necesidades)
+        List<History> historyList = new ArrayList<>();
+        historyList.add(new History("email1", "Route 1", "Dest 1", new Date()));
+        historyList.add(new History("email2", "Route 2", "Dest 2", new Date()));
+        historyList.add(new History("email3", "Route 3", "Dest 3", new Date()));
+        historyList.add(new History("email1", "Route 1", "Dest 1", new Date()));
+        historyList.add(new History("email2", "Route 2", "Dest 2", new Date()));
+        historyList.add(new History("email3", "Route 3", "Dest 3", new Date()));
+        historyList.add(new History("email1", "Route 1", "Dest 1", new Date()));
+        historyList.add(new History("email2", "Route 2", "Dest 2", new Date()));
+        historyList.add(new History("email3", "Route 3", "Dest 3", new Date()));
+
+        // Crea y establece el adaptador para el RecyclerView
+        RecyclerView recyclerViewHistory = rootView.findViewById(R.id.recyclerViewHistory);
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
+        HistoryAdapter historyAdapter = new HistoryAdapter(historyList);
+        recyclerViewHistory.setAdapter(historyAdapter);
+
+        // Oculta la animación Lottie si hay datos en la lista
+        if (historyList != null && !historyList.isEmpty()) {
+            rootView.findViewById(R.id.lottieAnimationView).setVisibility(View.GONE);
+        }
+
+        return rootView;
     }
 }

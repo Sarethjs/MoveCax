@@ -4,15 +4,31 @@ import java.util.Date;
 
 public class History {
 
-    private final String email, routeName;
-    private String dest, origin;
-    private Date date;
+    private String routeName;
+    private String origin;
+    private String destination;
+    private Date dateTime;
 
-    public History(String email, String routeName, String dest) {
-        this.email = email;
+    public History(String routeName, String origin, String destination, Date dateTime) {
         this.routeName = routeName;
+        this.origin = origin;
+        this.destination = destination;
+        this.dateTime = dateTime;
     }
 
+    public String getRouteName() {
+        return routeName;
+    }
 
+    public String getOrigin() {
+        return origin;
+    }
 
+    public String getDestination() {
+        return destination;
+    }
+
+    public Date getDateTime() {
+        return dateTime;
+    }
 }

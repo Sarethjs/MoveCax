@@ -13,10 +13,7 @@ public class TakeRoute {
 
     public void saveHistory() {
 
-        History history = new History(
-                UserSingleton.getCurrentUser().getEmail(),
-                view.route.getRouteName(),
-                view.destStreet
-        );
+
+
     }
 }
