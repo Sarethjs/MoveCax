@@ -1,0 +1,146 @@
+<!-- info_layout.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/infoLinearLayout"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@drawable/snackbar_background"
+    android:clickable="true">
+
+    <!-- LinearLayout principal para textos -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Layout para Inicio -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- ImageView para mostrar el icono antes de Inicio -->
+            <ImageView
+                android:id="@+id/iconInicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_marcador"
+                android:contentDescription="Inicio Icon"
+                android:layout_marginEnd="8dp"
+                app:tint="#FFFFFF"/>
+
+            <!-- TextView para mostrar Inicio -->
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inicio"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <!-- LinearLayout para Debes subir en -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- TextView para mostrar Debes subir en (color verde) -->
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debes subir en"
+                android:textStyle="bold"
+                android:textColor="#139820"
+                android:layout_marginLeft="32dp"
+                android:textSize="17sp"/>
+
+            <!-- ImageView para mostrar el icono al final de Debes subir en -->
+            <ImageView
+                android:id="@+id/iconSubir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_marcador"
+                android:contentDescription="Subir Icon"
+                android:layout_marginStart="8dp"
+                app:tint="#139820"/>
+        </LinearLayout>
+
+        <!-- Layout para Destino -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- ImageView para mostrar el icono antes de Destino -->
+            <ImageView
+                android:id="@+id/iconDestino"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_destino"
+                android:contentDescription="Destino Icon"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/white"/>
+
+            <!-- TextView para mostrar Destino -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Destino"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <!-- LinearLayout para Debes bajar en -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- TextView para mostrar Debes bajar en (color rojo) -->
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debes bajar en"
+                android:textStyle="bold"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_marginLeft="32dp"
+                android:textSize="17sp"/>
+
+            <!-- ImageView para mostrar el icono al final de Debes bajar en -->
+            <ImageView
+                android:id="@+id/iconBajar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_marcador"
+                android:contentDescription="Bajar Icon"
+                android:layout_marginStart="8dp"
+                app:tint="#FF0000"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- LinearLayout para el botón de cierre -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Agregar el nuevo botón de cierre en la esquina superior derecha -->
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_cerrar"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+</LinearLayout>
