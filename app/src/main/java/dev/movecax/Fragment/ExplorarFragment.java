@@ -2,11 +2,14 @@ package dev.movecax.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -219,6 +224,40 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
                 this.currentLocation.getLatitude(),
                 this.currentLocation.getLongitude()
         ));
+
+        // Set green marker
+        // Create a green marker icon with a custom size
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inScaled = false; // Disable bitmap scaling
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.location_green, options); // Load the marker icon
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true); // Scale the bitmap to the desired size (width, height)
+
+        BitmapDescriptor greenIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap); // Create a BitmapDescriptor from the scaled bitmap
+
+        // Add a marker with the custom icon
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.icon(greenIcon);
+
+        LatLng beginRoute = route.getPoints().get(0);
+        LatLng endRoute = route.getPoints().get(route.getPoints().size() - 1);
+
+        Location begin = new Location("Begin");
+        begin.setLatitude(beginRoute.latitude);
+        begin.setLongitude(beginRoute.longitude);
+
+        Location end = new Location("End");
+        end.setLatitude(endRoute.latitude);
+        end.setLongitude(endRoute.longitude);
+
+        float distToBegin = this.currentLocation.distanceTo(begin);
+        float distToEnd = this.currentLocation.distanceTo(end);
+
+        if (distToBegin < distToEnd) markerOptions.position(beginRoute);
+        else markerOptions.position(endRoute);
+
+        markerOptions.title("My location");
+        this.mGoogleMap.addMarker(markerOptions);
 
         // Getting street name
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(
