@@ -13,16 +13,21 @@ import retrofit2.Response;
 
 public class History {
 
-    private final String email, routeName;
+    private String email, routeName;
     private String dest, origin;
     private Date date;
     private static final HistoryService service = RouteService.retrofit.create(HistoryService.class);
 
-    public History(String email, String routeName, String dest) {
-        this.email = email;
+    public History(String routeName, String origin, String destination, Date dateTime) {
         this.routeName = routeName;
+        this.origin = origin;
+        this.dest = destination;
+        this.date = dateTime;
     }
 
+    public String getRouteName() {
+        return routeName;
+    }
 
     public static void get(HistoryModelListener.get listener, int userId) {
         Call<List<History>> call = History.service.getHistory(userId);
@@ -41,5 +46,19 @@ public class History {
         });
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public String getDest() {
+        return dest;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 }
