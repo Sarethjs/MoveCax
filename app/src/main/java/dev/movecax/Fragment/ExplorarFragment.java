@@ -236,8 +236,8 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         BitmapDescriptor greenIcon = BitmapDescriptorFactory.fromBitmap(scaledBitmap); // Create a BitmapDescriptor from the scaled bitmap
 
         // Add a marker with the custom icon
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.icon(greenIcon);
+        MarkerOptions beginMarker = new MarkerOptions();
+        beginMarker.icon(greenIcon);
 
         LatLng beginRoute = route.getPoints().get(0);
         LatLng endRoute = route.getPoints().get(route.getPoints().size() - 1);
@@ -253,11 +253,21 @@ public class ExplorarFragment extends Fragment implements OnMapReadyCallback {
         float distToBegin = this.currentLocation.distanceTo(begin);
         float distToEnd = this.currentLocation.distanceTo(end);
 
-        if (distToBegin < distToEnd) markerOptions.position(beginRoute);
-        else markerOptions.position(endRoute);
+        if (distToBegin < distToEnd) {
+            beginMarker.position(beginRoute);
+            this.mGoogleMap.addMarker(new MarkerOptions()
+                    .title("Bajar")
+                    .position(endRoute));
+        }
+        else {
+            beginMarker.position(endRoute);
+            this.mGoogleMap.addMarker(new MarkerOptions()
+                    .title("Bajar")
+                    .position(beginRoute));
+        }
 
-        markerOptions.title("My location");
-        this.mGoogleMap.addMarker(markerOptions);
+        beginMarker.title("Subir");
+        this.mGoogleMap.addMarker(beginMarker);
 
         // Getting street name
         BottomSheetFragment bottomSheetFragment = new BottomSheetFragment(
