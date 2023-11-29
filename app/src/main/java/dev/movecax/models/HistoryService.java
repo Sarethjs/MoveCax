@@ -19,5 +19,5 @@ public interface HistoryService {
     Call<List<History>> getHistory(@Path("userId") int userId);
 
     @POST("history/")
-    Call<Void> create(@Body int request);
+    Call<Void> create(@Body History history);
 }

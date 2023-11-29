@@ -9,13 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 import dev.movecax.Presenters.HistoryModelListener;
-import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class History {
 
+    private int userId;
     private String routeName;
     private String dest, origin;
     private Date date;
@@ -57,6 +58,26 @@ public class History {
         });
     }
 
+    public static void create(History history, HistoryModelListener.create listener) {
+        final Call<Void> call = History.service.create(history);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call,
+                                   @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    listener.success("Movement saved");
+                } else
+                    listener.failure("Error saving movement");
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call,
+                                  @NonNull Throwable t) {
+                listener.failure("Error: " + t.getCause());
+            }
+        });
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -81,5 +102,29 @@ public class History {
     }
     public String getRouteName() {
         return routeName;
+    }
+
+    public int getUserId(int id) {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public void setDest(String dest) {
+        this.dest = dest;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
