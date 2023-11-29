@@ -17,7 +17,7 @@ import dev.movecax.models.History;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
 
-    private List<History> historyList;
+    public List<History> historyList;
 
     public HistoryAdapter(List<History> historyList) {
         this.historyList = historyList;
@@ -36,11 +36,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
         holder.textViewRouteName.setText(historyItem.getRouteName());
         holder.textViewOrigin.setText(historyItem.getOrigin());
-        holder.textViewDest.setText(historyItem.getDestination());
+        holder.textViewDest.setText(historyItem.getDest());
 
         // Formatear la fecha y hora
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        String formattedDateTime = dateFormat.format(historyItem.getDateTime());
+        String formattedDateTime = dateFormat.format(historyItem.getDate());
         holder.textViewDateTime.setText(formattedDateTime);
     }
 

@@ -34,18 +34,19 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/historyAnim"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/lottieAnimationView"
-            android:layout_height="400dp"
+            android:id="@+id/lottieAnimation"
             android:layout_width="400dp"
-            app:lottie_rawRes="@raw/desierto"
+            android:layout_height="400dp"
+            app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_autoPlay="true"/>
+            app:lottie_rawRes="@raw/desierto" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

@@ -15,8 +15,8 @@ public interface HistoryService {
             .baseUrl("https://possible-steady-narwhal.ngrok-free.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-    @GET("history/")
-    Call<List<History>> getHistory(@Path("routeId") int userId);
+    @GET("history/{userId}")
+    Call<List<History>> getHistory(@Path("userId") int userId);
 
     @POST("history/")
     Call<Void> create(@Body int request);
