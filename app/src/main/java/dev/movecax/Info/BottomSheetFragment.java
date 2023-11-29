@@ -59,7 +59,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         this.tvDest.setText(this.destStreet == null ? "Not resolved" : this.destStreet);
 
         // Setting origin
-        this.tvOrigin.setText(this.originStreet == null ? "Not resolved" : this.originStreet);
+        if (this.originStreet == null) {
+            this.originStreet = "Your location";
+        }
+        this.tvOrigin.setText(this.originStreet);
     }
 
     @Nullable
